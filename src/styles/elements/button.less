@@ -1,0 +1,120 @@
+.accordion-button {
+  width: 100%;
+
+  cursor: pointer;
+  -webkit-transition: background .1s ease;
+          transition: background .1s ease;
+
+  border-top: 1px solid rgba(34,36,38,.15);
+
+  &:hover {
+    background-color: rgba(50, 50, 50, .05);
+  }
+
+  &:active {
+    background-color: rgba(50, 50, 50, .08);
+  }
+
+  p {
+    margin: 0;
+    padding: .5rem 1rem;
+
+    line-height: 16px;
+
+    span {
+      float: right;
+
+      font-weight: 700;
+
+      .ui.label {
+        margin-left: 7px;
+      }
+    }
+  }
+
+  .bar {
+    width: 100%;
+    height: 3px;
+
+    background-color: rgba(50, 50, 50, .1);
+
+    .filler {
+      width: 0%;
+      height: 100%;
+
+      background-color: @grey;
+    }
+  }
+
+  .label {
+    padding: .25em .5em;
+  }
+}
+
+.button.progression {
+  p {
+    margin: 0;
+    padding: .5em .75em;
+  }
+
+  .bar {
+    width: 100%;
+    height: 6px;
+
+    cursor: pointer;
+
+    border-bottom-right-radius: .28rem;
+    border-bottom-left-radius: .28rem;
+    background-color: rgba(255, 255, 255, .65);
+
+    .filler {
+      width: 0%;
+      height: 100%;
+
+      border-top-right-radius: .28rem;
+      border-bottom-right-radius: .28rem;
+      border-bottom-left-radius: .28rem;
+      background-color: @grey;
+    }
+  }
+}
+
+.button.progression.primary {
+  .bar {
+    background-color: @lightBlue;
+
+    .filler {
+      background-color: @darkBlue;
+    }
+  }
+}
+
+.button.progression.secondary {
+  .bar {
+    background-color: @grey;
+
+    .filler {
+      background-color: @darkGrey;
+    }
+  }
+}
+
+.button.progression.teal {
+  .bar {
+    background-color: @lightTeal;
+
+    .filler {
+      background-color: @darkTeal;
+    }
+  }
+}
+
+.button.progression.grey {
+  .bar {
+    background-color: @lightGrey;
+
+    .filler {
+      background-color: @darkGrey;
+    }
+  }
+}
