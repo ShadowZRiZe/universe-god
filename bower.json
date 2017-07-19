@@ -1,0 +1,26 @@
+{
+  "name": "universe-god",
+  "description": "Universe-God is an incremental-game where you build the entire universe from your God's hands, starting with atoms. Build a planet, generate an atmosphere, create civilization and more!",
+  "license": "GPL-2.0",
+  "authors": [
+    "Thomas Cazade <cazade.thomas@gmail.com>"
+  ],
+  "dependencies": {
+    "font-awesome": "^4.7.0",
+  },
+  "install": {
+    "base": "app/components",
+    "path": {
+      "js": "{name}/js",
+      "css": "{name}/css",
+      "less": "{name}/less",
+      "/(eot|svg|ttf|otf|woff|woff2)/": "{name}/fonts"
+    },
+    "sources": {
+      "font-awesome": [
+        "bower_components/font-awesome/css/*.min.css",
+        "bower_components/font-awesome/fonts/*.*"
+      ]
+    }
+  }
+}
