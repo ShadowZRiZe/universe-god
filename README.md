@@ -1,5 +1,5 @@
 <p align="center">
-	<img src="http://i.imgur.com/bGpVdib.png">
+	<img src="http://i.imgur.com/65GzXVK.png">
 </p>
 
 Universe-God is an incremental/idle-game where you build the entire universe from your God's hands, starting with atoms. Build a planet, generate an atmosphere, create civilization and more!
