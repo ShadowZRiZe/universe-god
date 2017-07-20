@@ -21,8 +21,8 @@ Use [pull-requests](https://help.github.com/articles/about-pull-requests "Pull-r
 #### Running Universe-God and making changes.
 
 1. Fork, clone the repo: `git clone git@github.com:your-username/universe-god.git`.
-* Install all dependencies: `npm i`.
-* Build game files: `gulp build` or `npm run build`.
-* Run the server: `gulp` or `npm run dev`. Game should be running at `localhost:8080`.
-* Before pushing your changes, do `gulp prod` or `npm run prod`.
-* Push changes to your fork, send me pull-request.
+2. Install all dependencies: `npm i`.
+3. Build game files: `gulp build` or `npm run build`.
+4. Run the server: `gulp` or `npm run dev`. Game should be running at `localhost:8080`.
+5. Before pushing your changes, do `gulp prod` or `npm run prod`.
+6. Push changes to your fork, send me pull-request.
