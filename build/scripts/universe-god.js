@@ -27847,7 +27847,7 @@ module.exports={
  * 
  *   typed.js - A JavaScript Typing Animation Library
  *   Author: Matt Boldt <me@mattboldt.com>
- *   Version: v2.0.1
+ *   Version: v2.0.4
  *   Url: https://github.com/mattboldt/typed.js
  *   License(s): MIT
  * 
@@ -28056,10 +28056,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      if (this.fadeOut && this.el.classList.contains(this.fadeOutClass)) {
 	        this.el.classList.remove(this.fadeOutClass);
-	        this.cursor.classList.remove(this.fadeOutClass);
+	        if (this.cursor) this.cursor.classList.remove(this.fadeOutClass);
 	      }
 	
 	      var humanize = this.humanizer(this.typeSpeed);
+	      var numChars = 1;
 	
 	      if (this.pause.status === true) {
 	        this.setPauseStatus(curString, curStrPos, true);
@@ -28068,27 +28069,42 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      // contain typing function in a timeout humanize'd delay
 	      this.timeout = setTimeout(function () {
+	        // skip over any HTML chars
+	        curStrPos = _htmlParserJs.htmlParser.typeHtmlChars(curString, curStrPos, _this2);
+	
+	        var pauseTime = 0;
+	        var substr = curString.substr(curStrPos);
 	        // check for an escape character before a pause value
 	        // format: \^\d+ .. eg: ^1000 .. should be able to print the ^ too using ^^
 	        // single ^ are removed from string
-	        var pauseTime = 0;
-	        var substr = curString.substr(curStrPos);
 	        if (substr.charAt(0) === '^') {
-	          var skip = 1; // skip atleast 1
 	          if (/^\^\d+/.test(substr)) {
+	            var skip = 1; // skip at least 1
 	            substr = /\d+/.exec(substr)[0];
 	            skip += substr.length;
 	            pauseTime = parseInt(substr);
 	            _this2.temporaryPause = true;
 	            _this2.options.onTypingPaused(_this2.arrayPos, _this2);
+	            // strip out the escape character and pause value so they're not printed
+	            curString = curString.substring(0, curStrPos) + curString.substring(curStrPos + skip);
+	            _this2.toggleBlinking(true);
 	          }
-	          _this2.toggleBlinking(true);
-	
-	          // strip out the escape character and pause value so they're not printed
-	          curString = curString.substring(0, curStrPos) + curString.substring(curStrPos + skip);
 	        }
 	
-	        curStrPos = _htmlParserJs.htmlParser.typeHtmlChars(curString, curStrPos, _this2);
+	        // check for skip characters formatted as
+	        // "this is a `string to print NOW` ..."
+	        if (substr.charAt(0) === '`') {
+	          while (curString.substr(curStrPos + numChars).charAt(0) !== '`') {
+	            numChars++;
+	            if (curStrPos + numChars > curString.length) break;
+	          }
+	          // strip out the escape characters and append all the string in between
+	          var stringBeforeSkip = curString.substring(0, curStrPos);
+	          var stringSkipped = curString.substring(stringBeforeSkip.length + 1, curStrPos + numChars);
+	          var stringAfterSkip = curString.substring(curStrPos + numChars + 1);
+	          curString = stringBeforeSkip + stringSkipped + stringAfterSkip;
+	          numChars--;
+	        }
 	
 	        // timeout for any pause after a character
 	        _this2.timeout = setTimeout(function () {
@@ -28099,7 +28115,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          if (curStrPos === curString.length) {
 	            _this2.doneTyping(curString, curStrPos);
 	          } else {
-	            _this2.keepTyping(curString, curStrPos);
+	            _this2.keepTyping(curString, curStrPos, numChars);
 	          }
 	          // end of character pause
 	          if (_this2.temporaryPause) {
@@ -28120,7 +28136,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     */
 	  }, {
 	    key: 'keepTyping',
-	    value: function keepTyping(curString, curStrPos) {
+	    value: function keepTyping(curString, curStrPos, numChars) {
 	      // call before functions if applicable
 	      if (curStrPos === 0) {
 	        this.toggleBlinking(false);
@@ -28128,10 +28144,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	      // start typing each new char into existing string
 	      // curString: arg, this.el.html: original text inside element
-	      var nextString = curString.substr(0, curStrPos + 1);
+	      curStrPos += numChars;
+	      var nextString = curString.substr(0, curStrPos);
 	      this.replaceText(nextString);
-	      // add characters one by one
-	      curStrPos++;
 	      // loop the function
 	      this.typewrite(curString, curStrPos);
 	    }
@@ -28307,7 +28322,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var _this5 = this;
 	
 	      this.el.className += ' ' + this.fadeOutClass;
-	      this.cursor.className += ' ' + this.fadeOutClass;
+	      if (this.cursor) this.cursor.className += ' ' + this.fadeOutClass;
 	      return setTimeout(function () {
 	        _this5.arrayPos++;
 	        _this5.replaceText('');
@@ -28398,6 +28413,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -28436,8 +28453,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        self.el = elementId;
 	      }
 	
-	      self.options = {};
-	      Object.assign(self.options, _defaultsJs2['default'], options);
+	      self.options = _extends({}, _defaultsJs2['default'], options);
 	
 	      // attribute to type into
 	      self.isInput = self.el.tagName.toLowerCase() === 'input';

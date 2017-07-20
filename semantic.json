@@ -8,15 +8,15 @@
       "themes": "src/themes/"
     },
     "output": {
-      "packaged": "..\\build\\components\\semantic\\",
+      "packaged": "packaged",
       "uncompressed": "uncompressed",
-      "compressed": "..\\build\\components\\semantic\\components\\",
-      "themes": "..\\build\\components\\semantic\\themes\\"
+      "compressed": "packaged\\components",
+      "themes": "packaged\\themes"
     },
     "clean": "dist/"
   },
   "permission": false,
-  "autoInstall": false,
+  "autoInstall": true,
   "rtl": false,
   "components": [
     "reset",

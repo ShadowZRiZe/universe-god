@@ -7,20 +7,5 @@
   ],
   "dependencies": {
     "font-awesome": "^4.7.0"
-  },
-  "install": {
-    "base": "build/components",
-    "path": {
-      "js": "{name}/js",
-      "css": "{name}/css",
-      "less": "{name}/less",
-      "/(eot|svg|ttf|otf|woff|woff2)/": "{name}/fonts"
-    },
-    "sources": {
-      "font-awesome": [
-        "bower_components/font-awesome/css/*.min.css",
-        "bower_components/font-awesome/fonts/*.*"
-      ]
-    }
   }
 }

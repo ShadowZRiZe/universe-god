@@ -1,12 +1,14 @@
 const gulp = require('gulp');
 const gutil = require('gulp-util');
+const bower = require('gulp-bower');
 const rename = require('gulp-rename');
+const plumber = require('gulp-plumber');
 
-const runSequence = require('run-sequence');
-const source = require('vinyl-source-stream');
-const bs = require('browser-sync').create();
-const browserify = require('browserify');
 const watchify = require('watchify');
+const browserify = require('browserify');
+const runSequence = require('run-sequence');
+const bs = require('browser-sync').create();
+const source = require('vinyl-source-stream');
 
 const babel = require('gulp-babel');
 const eslint = require('gulp-eslint');
@@ -65,6 +67,35 @@ gulp.task('js-min', () => {
     .pipe(gulp.dest('./build/scripts/'));
 });
 
+// Bower install
+gulp.task('bower', () => {
+  // Looking for a better way to do it, like bower-installer: don't include full repo
+  return bower('./bower_components')
+    .pipe(plumber())
+    .pipe(gulp.dest('./build/components/'));
+});
+
+// Copy files
+gulp.task('copy-semantic', () => {
+  return gulp.src('./semantic/packaged/**/*', { base: './semantic/packaged/' })
+    .pipe(gulp.dest('./build/components/semantic/'));
+});
+
+gulp.task('copy-index', () => {
+  return gulp.src('./src/index.html')
+    .pipe(gulp.dest('./build/'));
+});
+
+gulp.task('copy-images', () => {
+  return gulp.src(['./src/images/**/*', '!src/images/favicon.ico'])
+    .pipe(gulp.dest('./build/images/'));
+});
+
+gulp.task('copy-favicon', () => {
+  return gulp.src('./src/images/favicon.ico')
+    .pipe(gulp.dest('./build/'));
+});
+
 // Global tasks
 gulp.task('watch', () => {
   let watcher = watchify(browserify('./src/scripts/index.js'), watchify.args);
@@ -89,4 +120,12 @@ gulp.task('watch', () => {
 
 // Public tasks
 gulp.task('default', ['watch']);
-gulp.task('prod', ['less-format', 'css-min', 'js-min']);
+gulp.task('prod', ['css-min', 'js-min']);
+gulp.task('build', () => {
+  runSequence('bower');
+  runSequence('copy-semantic', 'copy-index', 'copy-images', 'copy-favicon');
+  runSequence('less-to-css', 'less-format');
+  runSequence('eslint', () => {
+    bundle(browserify('./src/scripts/index.js'));
+  });
+});
