@@ -103,7 +103,7 @@ gulp.task('watch', () => {
   bundle(watcher);
 
   watcher.on('update', () => {
-    runSequence('less-to-css', 'eslint', () => {
+    runSequence('watcher-build', () => {
       bundle(watcher);
     });
   });
@@ -118,14 +118,26 @@ gulp.task('watch', () => {
   });
 });
 
+gulp.task('browserify', () => {
+  return bundle(browserify('./src/scripts/index.js'));
+});
+
 // Public tasks
 gulp.task('default', ['watch']);
+
 gulp.task('prod', ['css-min', 'js-min']);
+
 gulp.task('build', () => {
   runSequence('bower');
   runSequence('copy-semantic', 'copy-index', 'copy-images', 'copy-favicon');
   runSequence('less-to-css', 'less-format');
   runSequence('eslint', () => {
-    bundle(browserify('./src/scripts/index.js'));
+    runSequence('browserify');
   });
+});
+
+gulp.task('watcher-build', () => {
+  runSequence('copy-index', 'copy-images');
+  runSequence('less-to-css', 'less-format');
+  runSequence('eslint');
 });
