@@ -8,10 +8,10 @@
       "themes": "src/themes/"
     },
     "output": {
-      "packaged": "..\\app\\components\\semantic\\",
-      "uncompressed": "..\\app\\components\\semantic\\components\\",
-      "compressed": "..\\app\\components\\semantic\\components\\",
-      "themes": "..\\app\\components\\semantic\\themes\\"
+      "packaged": "..\\build\\components\\semantic\\",
+      "uncompressed": "uncompressed",
+      "compressed": "..\\build\\components\\semantic\\components\\",
+      "themes": "..\\build\\components\\semantic\\themes\\"
     },
     "clean": "dist/"
   },
@@ -69,5 +69,5 @@
     "state",
     "visibility"
   ],
-  "version": "2.2.10"
+  "version": "2.2.11"
 }

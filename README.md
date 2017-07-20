@@ -22,7 +22,7 @@ Use [pull-requests](https://help.github.com/articles/about-pull-requests "Pull-r
 
 * Fork, clone the repo: `git clone git@github.com:your-username/universe-god.git`.
 * Install all dependencies:
-  * `npm`: `npm i`
+  * `npm`: `npm i && npm install -g bower-installer`
   * `bower`: `bower-installer`
 * Run the server: `gulp` or `npm run dev`. Game should be running at http://localhost:8080.
   * LiveReload enabled by default using BrowserSync, no need to use an add-on.

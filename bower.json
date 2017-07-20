@@ -6,10 +6,10 @@
     "Thomas Cazade <cazade.thomas@gmail.com>"
   ],
   "dependencies": {
-    "font-awesome": "^4.7.0",
+    "font-awesome": "^4.7.0"
   },
   "install": {
-    "base": "app/components",
+    "base": "build/components",
     "path": {
       "js": "{name}/js",
       "css": "{name}/css",
