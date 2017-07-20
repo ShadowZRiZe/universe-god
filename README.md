@@ -6,7 +6,7 @@ Universe-God is an incremental/idle-game where you build the entire universe fro
 
 ## Links
 
-* [Play here!](http://totominc.github.io/universe-god)
+* [Play here!](http://totominc.github.io/universe-god) (not published yet)
 
 ## Contributing to Universe-God.
 
