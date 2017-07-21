@@ -31,7 +31,6 @@
     "gulp-util": "^3.0.8",
     "gulp-watch": "^4.3.11",
     "run-sequence": "^2.0.0",
-    "semantic-ui-popup": "^2.2.11",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.9.0"
   },
@@ -43,6 +42,7 @@
     "semantic-ui": "^2.2.10",
     "semantic-ui-accordion": "^2.2.11",
     "semantic-ui-dropdown": "^2.2.11",
+    "semantic-ui-popup": "^2.2.11",
     "semantic-ui-tab": "^2.2.11",
     "semantic-ui-transition": "^2.2.11",
     "swarm-numberformat": "^0.3.5",
