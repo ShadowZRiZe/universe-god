@@ -1,6 +1,7 @@
 const gulp = require('gulp');
 const gutil = require('gulp-util');
 const bower = require('gulp-bower');
+const watch = require('gulp-watch');
 const rename = require('gulp-rename');
 const plumber = require('gulp-plumber');
 
@@ -18,6 +19,14 @@ const csso = require('gulp-csso');
 const less = require('gulp-less');
 const csscomb = require('gulp-csscomb');
 const autoprefixer = require('gulp-autoprefixer');
+
+// Browser-sync params
+let bsParams = {
+  server: './build',
+  port: 8080,
+  notify: false,
+  logFileChanges: false
+};
 
 // Bundle function
 let bundle = (bundler) => {
@@ -102,20 +111,19 @@ gulp.task('watch', () => {
 
   bundle(watcher);
 
-  watcher.on('update', () => {
+  watch(['./src/styles/**/*', './src/index.html'], () => {
     runSequence('watcher-build', () => {
       bundle(watcher);
     });
   });
 
-  watcher.on('log', gutil.log);
+  watcher.on('update', () => {
+    runSequence('watcher-build', () => {
+      bundle(watcher);
+    });
+  }).on('log', gutil.log);
 
-  bs.init({
-    server: './build',
-    port: 8080,
-    notify: false,
-    logFileChanges: false
-  });
+  bs.init(bsParams);
 });
 
 gulp.task('browserify', () => {
@@ -125,7 +133,7 @@ gulp.task('browserify', () => {
 // Public tasks
 gulp.task('default', ['watch']);
 
-gulp.task('prod', ['css-min', 'js-min']);
+gulp.task('prod', ['less-format', 'css-min', 'js-min']);
 
 gulp.task('build', () => {
   runSequence('bower');
@@ -138,6 +146,6 @@ gulp.task('build', () => {
 
 gulp.task('watcher-build', () => {
   runSequence('copy-index', 'copy-images');
-  runSequence('less-to-css', 'less-format');
+  runSequence('less-to-css');
   runSequence('eslint');
 });
