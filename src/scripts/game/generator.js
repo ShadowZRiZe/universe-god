@@ -14,14 +14,33 @@ class Generator {
     this.price = opt.price;
     this.time = opt.time;
 
-    this.inflation = opt.inflation || 1.15;
     this.owned = opt.owned || 0;
-    this.buyID = opt.buyID || undefined;
+    this.inflation = opt.inflation || 1.15;
+    this.buttonID = opt.buttonID || undefined;
     this.barID = opt.barID || undefined;
     this.statsID = opt.statsID || undefined;
 
     this.progression = 0;
     this.complete = 0;
+  }
+
+  getIncome() {
+    let income = [];
+
+    for (let key in this.income) {
+      let res = this.game.resourceTable[key],
+        time = this.time,
+        amount = this.income[key] * this.owned,
+        sec = amount / time;
+
+      income.push(`+${Format(amount)} ${res.name} (${Format(sec)}/s)`);
+    }
+
+    return `${income.join(', ')}`;
+  }
+
+  process() {
+    this.earn();
   }
 
   canBuy() {
@@ -70,6 +89,27 @@ class Generator {
       }
 
       this.render('stats');
+      this.tooltip();
+    }
+  }
+
+  earn() {
+    for (let key in this.income) {
+      let res = this.game.resourceTable[key],
+        amount = this.income[key];
+
+      res.amount += (amount * this.owned);
+    }
+  }
+
+  progress(times) {
+    if (this.owned > 0)
+      this.progression += times / this.game.options.fps;
+
+    if (this.progression >= this.time) {
+      this.progression = 0;
+      this.completed++;
+      this.process();
     }
   }
 
@@ -98,19 +138,6 @@ class Generator {
     return `<p>${this.name}: ${income.join(', ')}; ${Format(this.time)}s. <span>${price.join(', ')} <span class="ui label">${this.owned}</span></span></p>`;
   }
 
-  process() {
-    this.earn();
-  }
-
-  earn() {
-    for (let key in this.income) {
-      let res = this.game.resourceTable[key],
-        amount = this.income[key];
-
-      res.amount += (amount * this.owned);
-    }
-  }
-
   render(type) {
     if (this.statsID !== undefined && type === 'stats')
       $(`#${this.statsID}`).html(this.formatStats());
@@ -124,7 +151,7 @@ class Generator {
 
   template() {
     return `
-    <div id="${this.buyID}" class="accordion-button noselect">
+    <div id="${this.buttonID}" class="accordion-button noselect">
       <p id="${this.statsID}"></p>
       <div class="bar">
         <div id="${this.barID}" class="filler"></div>
@@ -132,22 +159,19 @@ class Generator {
     </div>`;
   }
 
-  progress(times) {
-    if (this.owned > 0)
-      this.progression += times / this.game.options.fps;
+  tooltip() {
+    let income = this.getIncome(),
+      text = `${income}`;
 
-    if (this.progression >= this.time) {
-      this.progression = 0;
-      this.completed++;
-      this.process();
-    }
+    $(`#${this.buttonID}`).attr('data-tooltip', text);
   }
 
   init() {
     $(`#content-${this.category}`).append(this.template());
-    $(`#${this.buyID}`).click(() => this.buy());
+    $(`#${this.buttonID}`).click(() => this.buy());
 
     this.render('stats');
+    this.tooltip();
   }
 }
 

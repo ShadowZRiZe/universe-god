@@ -6,7 +6,7 @@ module.exports = (game) => {
   generatorTable['mass-1'] = new Generator({
     game: game,
     name: 'Generator 1',
-    buyID: 'btn-mass-1',
+    buttonID: 'btn-mass-1',
     barID: 'btn-mass-1-bar',
     statsID: 'btn-mass-1-stats',
     category: 'mass',
@@ -20,7 +20,7 @@ module.exports = (game) => {
   generatorTable['mass-2'] = new Generator({
     game: game,
     name: 'Generator 2',
-    buyID: 'btn-mass-2',
+    buttonID: 'btn-mass-2',
     barID: 'btn-mass-2-bar',
     statsID: 'btn-mass-2-stats',
     category: 'mass',
@@ -34,7 +34,7 @@ module.exports = (game) => {
   generatorTable['mass-3'] = new Generator({
     game: game,
     name: 'Generator 3',
-    buyID: 'btn-mass-3',
+    buttonID: 'btn-mass-3',
     barID: 'btn-mass-3-bar',
     statsID: 'btn-mass-3-stats',
     category: 'mass',
@@ -48,7 +48,7 @@ module.exports = (game) => {
   generatorTable['oxygen-1'] = new Generator({
     game: game,
     name: 'Oxygener',
-    buyID: 'btn-oxygen-1',
+    buttonID: 'btn-oxygen-1',
     barID: 'btn-oxygen-1-bar',
     statsID: 'btn-oxygen-1-stats',
     category: 'atom',
@@ -62,7 +62,7 @@ module.exports = (game) => {
   generatorTable['hydrogen-1'] = new Generator({
     game: game,
     name: 'Hydrogener',
-    buyID: 'btn-hydrogen-1',
+    buttonID: 'btn-hydrogen-1',
     barID: 'btn-hydrogen-1-bar',
     statsID: 'btn-hydrogen-1-stats',
     category: 'atom',

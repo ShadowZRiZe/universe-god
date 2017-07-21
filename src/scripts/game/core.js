@@ -40,7 +40,6 @@ var Game = {
     for (let key in this.resourceTable) {
       let res = this.resourceTable[key];
 
-      res.progress(times);
       res.render();
     }
 
@@ -53,10 +52,10 @@ var Game = {
   },
 
   domInit: function() {
+    $('.tabular.menu .item').tab();
     $('.ui.dropdown').dropdown({
       action: 'hide'
     });
-		$('.tabular.menu .item').tab();
 		$('.ui.accordion').accordion({
       exclusive: false
 		});

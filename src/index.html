@@ -41,26 +41,21 @@
 			<div class="five wide column">
 				<div class="ui styled accordion">
 					<!-- Overview -->
-					<div class="title active">
+					<div class="title active noselect">
 						<i class="dropdown icon"></i> Overview
 					</div>
 
-					<div class="content active">
-						<p>Planet <span class="float-right bold">Earth</span></p>
-						<p>Atmosphere <span class="float-right bold">none</span></p>
-						<p>Mass <span id="display-mass" class="float-right bold"></span></p>
+					<div id="overview-container" class="content active">
+						<p>Planet <span class="float-right bold">unknown</span></p>
+						<p>Atmosphere <span class="float-right bold">n/a</span></p>
 					</div>
 
 					<!-- Resources -->
-					<div class="title active">
+					<div class="title active noselect">
 						<i class="dropdown icon"></i> Resources
 					</div>
 
-					<div class="content active">
-						<p><img class="ui resources-icon" src="images/atoms/oxygen.svg"> Oxygen <span id="display-oxygen" class="float-right bold"></span></p>
-						<p><img class="ui resources-icon" src="images/atoms/hydrogen.svg"> Hydrogen <span id="display-hydrogen" class="float-right bold"></span></p>
-						<p><img class="ui resources-icon" src="images/atoms/water.svg"> Water <span id="display-water" class="float-right bold"></span></p>
-					</div>
+					<div id="resources-container" class="content active"></div>
 				</div>
 			</div>
 
@@ -69,17 +64,11 @@
 				<!-- Nav-tab -->
 				<div class="ui top attached tabular menu">
 					<a class="active item" data-tab="tab-logs"><i class="terminal icon"></i> Logs</a>
-					<a class="item" data-tab="tab-actions"><i class="hand pointer icon"></i> Actions</a>
 					<a class="item" data-tab="tab-generators"><i class="industry icon"></i> Generators</a>
 				</div>
 
 				<!-- Logs tab -->
 				<div id="tab-logs" class="ui bottom attached active tab segment console" data-tab="tab-logs"></div>
-
-				<!-- Actions tab -->
-				<div class="ui bottom attached tab segment" data-tab="tab-actions">
-					<div id="actions-grid" class="ui relaxed grid"></div>
-				</div>
 
 				<!-- Generators tab -->
 				<div class="ui bottom attached tab segment" data-tab="tab-generators">

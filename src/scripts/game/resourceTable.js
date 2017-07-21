@@ -8,6 +8,7 @@ module.exports = (game) => {
     name: 'mass',
     suffix: 'kg',
     resourceID: 'display-mass',
+    resourceContainer: 'overview-container',
     independant: true,
     income: { mass: 10 },
     amount: 10
@@ -16,44 +17,29 @@ module.exports = (game) => {
   resourceTable['oxygen'] = new Resource({
     game: game,
     name: 'oxygen',
-    color: 'primary',
-    buttonText: 'Make oxygen',
-    triggerID: 'btn-oxygen',
-    barID: 'btn-oxygen-bar',
     resourceID: 'display-oxygen',
-    independant: true,
-    tooltip: true,
-    time: 4,
-    income: { oxygen: 10 }
+    resourceContainer: 'resources-container',
+    imgPath: 'atoms/oxygen.svg',
+    independant: true
   });
 
   resourceTable['hydrogen'] = new Resource({
     game: game,
     name: 'hydrogen',
-    color: 'primary',
-    buttonText: 'Make hydrogen',
-    triggerID: 'btn-hydrogen',
-    barID: 'btn-hydrogen-bar',
     resourceID: 'display-hydrogen',
-    independant: true,
-    tooltip: true,
-    time: 4,
-    income: { hydrogen: 12 }
+    resourceContainer: 'resources-container',
+    imgPath: 'atoms/hydrogen.svg',
+    independant: true
   });
 
   resourceTable['water'] = new Resource({
     game: game,
     name: 'water',
-    color: 'teal',
-    buttonText: 'Generate water',
-    triggerID: 'btn-water',
-    barID: 'btn-water-bar',
+    suffix: 'L',
     resourceID: 'display-water',
-    independant: false,
-    tooltip: true,
-    time: 1,
-    income: { water: 1 },
-    cost: { oxygen: 2, hydrogen: 4 }
+    resourceContainer: 'resources-container',
+    imgPath: 'atoms/water.svg',
+    independant: false
   });
 
   return resourceTable;
