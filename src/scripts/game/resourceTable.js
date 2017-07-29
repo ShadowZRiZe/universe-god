@@ -7,6 +7,7 @@ module.exports = (game) => {
     game: game,
     name: 'mass',
     suffix: 'kg',
+    resourceHolder: 'holder-mass',
     resourceID: 'display-mass',
     resourceContainer: 'overview-container',
     independant: true,
@@ -17,6 +18,7 @@ module.exports = (game) => {
   resourceTable['oxygen'] = new Resource({
     game: game,
     name: 'oxygen',
+    resourceHolder: 'holder-oxygen',
     resourceID: 'display-oxygen',
     resourceContainer: 'resources-container',
     imgPath: 'atoms/oxygen.svg',
@@ -26,6 +28,7 @@ module.exports = (game) => {
   resourceTable['hydrogen'] = new Resource({
     game: game,
     name: 'hydrogen',
+    resourceHolder: 'holder-hydrogen',
     resourceID: 'display-hydrogen',
     resourceContainer: 'resources-container',
     imgPath: 'atoms/hydrogen.svg',
@@ -36,6 +39,7 @@ module.exports = (game) => {
     game: game,
     name: 'water',
     suffix: 'L',
+    resourceHolder: 'holder-water',
     resourceID: 'display-water',
     resourceContainer: 'resources-container',
     imgPath: 'atoms/water.svg',
