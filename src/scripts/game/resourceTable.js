@@ -11,7 +11,6 @@ module.exports = (game) => {
     resourceID: 'display-mass',
     resourceContainer: 'overview-container',
     independant: true,
-    income: { mass: 10 },
     amount: 10
   });
 
