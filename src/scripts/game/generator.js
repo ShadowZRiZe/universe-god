@@ -19,6 +19,7 @@ class Generator {
     this.buttonID = opt.buttonID || undefined;
     this.barID = opt.barID || undefined;
     this.statsID = opt.statsID || undefined;
+    this.visible = opt.visible || false;
 
     this.progression = 0;
     this.complete = 0;
@@ -113,6 +114,17 @@ class Generator {
     }
   }
 
+  visibility(visible) {
+    this.visible = visible;
+
+    if (visible)
+      $(`#${this.buttonID}`).fadeIn();
+    else
+      $(`#${this.buttonID}`).fadeOut();
+
+    this.render('stats');
+  }
+
   formatStats() {
     let income = [],
       price = [],
@@ -139,6 +151,9 @@ class Generator {
   }
 
   render(type) {
+    if (!this.visible)
+      return;
+
     if (this.statsID !== undefined && type === 'stats')
       $(`#${this.statsID}`).html(this.formatStats());
 
@@ -169,6 +184,9 @@ class Generator {
   init() {
     $(`#content-${this.category}`).append(this.template());
     $(`#${this.buttonID}`).click(() => this.buy());
+
+    if (!this.visible)
+      $(`#${this.buttonID}`).hide();
 
     this.render('stats');
     this.tooltip();
