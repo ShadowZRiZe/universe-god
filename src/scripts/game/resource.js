@@ -16,14 +16,14 @@ class Resource {
     this.suffix = opt.suffix || undefined;
 
     // Where the resource stat should be appended
-    this.visible = opt.visible || true;
+    this.visible = opt.visible || false;
     this.resourceContainer = opt.resourceContainer || undefined;
     this.resourceHolder = opt.resourceHolder || undefined;
     this.resourceID = opt.resourceID || undefined;
     this.imgPath = opt.imgPath || undefined;
   }
 
-  visibility(visible, effect) {
+  visibility(visible) {
     this.visible = visible;
 
     if (visible)

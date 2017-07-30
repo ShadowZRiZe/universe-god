@@ -11,6 +11,7 @@ module.exports = (game) => {
     resourceID: 'display-mass',
     resourceContainer: 'overview-container',
     independant: true,
+    visible: true,
     amount: 10
   });
 
@@ -21,7 +22,8 @@ module.exports = (game) => {
     resourceID: 'display-oxygen',
     resourceContainer: 'resources-container',
     imgPath: 'atoms/oxygen.svg',
-    independant: true
+    independant: true,
+    visible: true
   });
 
   resourceTable['hydrogen'] = new Resource({
@@ -31,7 +33,8 @@ module.exports = (game) => {
     resourceID: 'display-hydrogen',
     resourceContainer: 'resources-container',
     imgPath: 'atoms/hydrogen.svg',
-    independant: true
+    independant: true,
+    visible: true
   });
 
   resourceTable['water'] = new Resource({
@@ -42,7 +45,8 @@ module.exports = (game) => {
     resourceID: 'display-water',
     resourceContainer: 'resources-container',
     imgPath: 'atoms/water.svg',
-    independant: false
+    independant: false,
+    visible: true
   });
 
   return resourceTable;
