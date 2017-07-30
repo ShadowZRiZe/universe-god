@@ -42,7 +42,10 @@ class Resource {
   }
 
   render() {
-    if (this.resourceID !== undefined && this.visible) {
+    if (!this.visible)
+      return;
+
+    if (this.resourceID !== undefined) {
       if (this.suffix !== undefined)
         $(`#${this.resourceID}`).html(`${Format(this.amount, this.suffix)}`);
       else
