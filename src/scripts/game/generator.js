@@ -19,7 +19,9 @@ class Generator {
     this.buttonID = opt.buttonID || undefined;
     this.barID = opt.barID || undefined;
     this.statsID = opt.statsID || undefined;
+    this.pauseID = opt.pauseID || undefined;
     this.visible = opt.visible || false;
+    this.paused = opt.paused || false;
 
     this.progression = 0;
     this.complete = 0;
@@ -103,8 +105,19 @@ class Generator {
     }
   }
 
+  pause() {
+    this.paused = !this.paused;
+
+    if (this.paused) {
+      $(`#${this.pauseID}`).removeClass('pause').addClass('play');
+    }
+    else {
+      $(`#${this.pauseID}`).removeClass('play').addClass('pause');
+    }
+  }
+
   progress(times) {
-    if (this.owned > 0)
+    if (this.owned > 0 && !this.paused)
       this.progression += times / this.game.options.fps;
 
     if (this.progression >= this.time) {
@@ -167,7 +180,15 @@ class Generator {
   template() {
     return `
     <div id="${this.buttonID}" class="accordion-button noselect">
-      <p id="${this.statsID}"></p>
+      <div class="ui grid grid-accordion">
+        <div class="two wide column pause">
+          <i id="${this.pauseID}" class="pause icon accordion-pause"></i>
+        </div>
+        <div class="fourteen wide column buy">
+          <p id="${this.statsID}"></p>
+        </div>
+      </div>
+
       <div class="bar">
         <div id="${this.barID}" class="filler"></div>
       </div>
@@ -183,7 +204,8 @@ class Generator {
 
   init() {
     $(`#content-${this.category}`).append(this.template());
-    $(`#${this.buttonID}`).click(() => this.buy());
+    $(`#${this.statsID}`).click(() => this.buy());
+    $(`#${this.pauseID}`).click(() => this.pause());
 
     if (!this.visible)
       $(`#${this.buttonID}`).hide();
