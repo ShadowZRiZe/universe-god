@@ -1,10 +1,6 @@
 const $ = require('jquery'),
   Format = require('./../util/formatter');
 
-/***
- *  Lifecycle: progress() -> process() -> earn()
- ***/
-
 class Generator {
   constructor(opt) {
     this.game = opt.game;
@@ -43,8 +39,16 @@ class Generator {
     return `${income.join(', ')}`;
   }
 
-  process() {
-    this.earn();
+  getPrice() {
+    let prices = [];
+
+    for (let key in this.price) {
+      let price = this.price[key];
+
+      prices.push(Math.floor(price * Math.pow(this.inflation, this.owned)));
+    }
+
+    return prices;
   }
 
   canBuy() {
@@ -62,18 +66,6 @@ class Generator {
     }
 
     return sufficient.every((el) => el === true);
-  }
-
-  getPrice() {
-    let prices = [];
-
-    for (let key in this.price) {
-      let price = this.price[key];
-
-      prices.push(Math.floor(price * Math.pow(this.inflation, this.owned)));
-    }
-
-    return prices;
   }
 
   buy() {
@@ -133,17 +125,6 @@ class Generator {
     this.render('stats');
   }
 
-  progress(times) {
-    if (this.owned > 0 && !this.paused)
-      this.progression += times / this.game.options.fps;
-
-    if (this.progression >= this.time) {
-      this.progression = 0;
-      this.completed++;
-      this.process();
-    }
-  }
-
   visibility(visible) {
     this.visible = visible;
 
@@ -155,7 +136,25 @@ class Generator {
     this.render('stats');
   }
 
-  formatStats() {
+  progress(times) {
+    if (this.owned > 0 && !this.paused)
+      this.progression += times / this.game.options.fps;
+
+    if (this.progression >= this.time) {
+      this.progression = 0;
+      this.completed++;
+      this.earn();
+    }
+  }
+
+  tooltip() {
+    let income = this.getIncome(),
+      text = `${income}`;
+
+    $(`#${this.buttonID}`).attr('data-tooltip', text);
+  }
+
+  stats() {
     let income = [],
       price = [],
       prices = this.getPrice(),
@@ -185,7 +184,7 @@ class Generator {
       return;
 
     if (this.statsID !== undefined && type === 'stats')
-      $(`#${this.statsID}`).html(this.formatStats());
+      $(`#${this.statsID}`).html(this.stats());
 
     if (this.barID !== undefined) {
       let percent = (this.progression / this.time) * 100;
@@ -213,13 +212,6 @@ class Generator {
         <div id="${this.barID}" class="filler"></div>
       </div>
     </div>`;
-  }
-
-  tooltip() {
-    let income = this.getIncome(),
-      text = `${income}`;
-
-    $(`#${this.buttonID}`).attr('data-tooltip', text);
   }
 
   init() {
