@@ -6,6 +6,7 @@ const rename = require('gulp-rename');
 const plumber = require('gulp-plumber');
 
 const watchify = require('watchify');
+const babelify = require('babelify');
 const browserify = require('browserify');
 const runSequence = require('run-sequence');
 const bs = require('browser-sync').create();
@@ -31,6 +32,7 @@ let bsParams = {
 // Bundle function
 let bundle = (bundler) => {
   return bundler
+    .transform('babelify', { presets: ['es2015'] })
     .bundle()
     .on('error', (err) => gutil.log(err))
     .pipe(source('universe-god.js'))
