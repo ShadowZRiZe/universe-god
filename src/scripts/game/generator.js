@@ -20,6 +20,7 @@ class Generator {
     this.barID = opt.barID || undefined;
     this.statsID = opt.statsID || undefined;
     this.pauseID = opt.pauseID || undefined;
+    this.sellID = opt.sellID || undefined;
     this.visible = opt.visible || false;
     this.paused = opt.paused || false;
 
@@ -116,6 +117,22 @@ class Generator {
     }
   }
 
+  sell() {
+    if (this.owned < 1)
+      return;
+
+    for (let key in this.price) {
+      let price = this.price[key],
+        res = this.game.resourceTable[key],
+        refund = Math.floor(price * Math.pow(this.inflation, this.owned - 1)) * 0.5;
+
+      res.amount += refund;
+    }
+
+    this.owned--;
+    this.render('stats');
+  }
+
   progress(times) {
     if (this.owned > 0 && !this.paused)
       this.progression += times / this.game.options.fps;
@@ -184,7 +201,10 @@ class Generator {
         <div class="two wide column pause">
           <i id="${this.pauseID}" class="pause icon accordion-pause"></i>
         </div>
-        <div class="fourteen wide column buy">
+        <div class="one wide column sell">
+          <i id="${this.sellID}" class="dollar icon accordion-pause"></i>
+        </div>
+        <div class="thirteen wide column buy">
           <p id="${this.statsID}"></p>
         </div>
       </div>
@@ -204,8 +224,9 @@ class Generator {
 
   init() {
     $(`#content-${this.category}`).append(this.template());
-    $(`#${this.statsID}`).click(() => this.buy());
     $(`#${this.pauseID}`).click(() => this.pause());
+    $(`#${this.sellID}`).click(() => this.sell());
+    $(`#${this.statsID}`).click(() => this.buy());
 
     if (!this.visible)
       $(`#${this.buttonID}`).hide();
