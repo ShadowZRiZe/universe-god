@@ -23,6 +23,36 @@ class Resource {
     this.imgPath = opt.imgPath || undefined;
   }
 
+  sufficient(amount) {
+    let sufficient = [];
+
+    for (let key in this.cost) {
+      let res = this.game.resourceTable[key],
+        cost = this.cost[key] * amount;
+
+      (res.amount >= cost) ? sufficient.push(true) : sufficient.push(false);
+    }
+
+    return sufficient.every((el) => el === true);
+  }
+
+  earn(amount, income) {
+    if (!this.independant && this.sufficient(amount)) {
+      for (let key in this.cost) {
+        let res = this.game.resourceTable[key],
+          cost = this.cost[key] * amount;
+
+        res.amount -= cost;
+      }
+
+      this.amount += income;
+    }
+
+    if (this.independant) {
+      this.amount += income;
+    }
+  }
+
   visibility(visible) {
     this.visible = visible;
 

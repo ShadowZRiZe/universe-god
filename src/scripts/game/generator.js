@@ -13,10 +13,10 @@ class Generator {
     this.owned = opt.owned || 0;
     this.inflation = opt.inflation || 1.15;
     this.buttonID = opt.buttonID || undefined;
-    this.barID = opt.barID || undefined;
-    this.statsID = opt.statsID || undefined;
-    this.pauseID = opt.pauseID || undefined;
-    this.sellID = opt.sellID || undefined;
+    this.barID = opt.barID || this.buttonID + '-bar';
+    this.statsID = opt.statsID || this.buttonID + '-stats';
+    this.pauseID = opt.pauseID || this.buttonID + '-pause';
+    this.sellID = opt.sellID || this.buttonID + '-sell';
     this.visible = opt.visible || false;
     this.paused = opt.paused || false;
 
@@ -92,9 +92,10 @@ class Generator {
   earn() {
     for (let key in this.income) {
       let res = this.game.resourceTable[key],
-        amount = this.income[key];
+        amount = this.owned,
+        income = amount * this.income[key];
 
-      res.amount += (amount * this.owned);
+      res.earn(amount, income);
     }
   }
 

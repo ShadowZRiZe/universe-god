@@ -2,10 +2,6 @@
 	<img src="http://i.imgur.com/65GzXVK.png">
 </p>
 
-<center>
-	<a href="https://codebeat.co/projects/github-com-totominc-universe-god-dev-fb4f98f2-b4bd-491a-9750-55b3f96799c6"><img alt="codebeat badge" src="https://codebeat.co/badges/3ab5714b-41d9-469b-9a91-43d6fe1a7c9c" /></a>
-</center>
-
 Universe-God is an incremental/idle-game where you build the entire universe from your God's hands, starting with atoms. Build a planet, generate an atmosphere, create civilization and more!
 
 ## Links
