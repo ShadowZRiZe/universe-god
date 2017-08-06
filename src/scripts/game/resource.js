@@ -20,7 +20,6 @@ class Resource {
     this.resourceContainer = opt.resourceContainer || undefined;
     this.resourceHolder = opt.resourceHolder || undefined;
     this.resourceID = opt.resourceID || undefined;
-    this.imgPath = opt.imgPath || undefined;
   }
 
   sufficient(amount) {
@@ -63,11 +62,9 @@ class Resource {
   }
 
   template() {
-    let img = (this.imgPath) ? `images/${this.imgPath}` : '';
-
     return `
     <p id="${this.resourceHolder}">
-      <img class="ui resources-icon" src="${img}"> ${Uppercase(this.name)} <span id="${this.resourceID}" class="float-right bold"></span>
+      ${Uppercase(this.name)} <span id="${this.resourceID}" class="float-right bold"></span>
     </p>`;
   }
 
