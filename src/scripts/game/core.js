@@ -1,31 +1,34 @@
-const $ = require('jquery'),
-  Transition = require('semantic-ui-transition'),
-  Accordion = require('semantic-ui-accordion'),
-  Dropdown = require('semantic-ui-dropdown'),
-  Tab = require('semantic-ui-tab');
+import $ from 'jquery';
 
-const Favicon = require('./../util/favicon'),
-  Formatter = require('./../util/formatter'),
-  Logger = require('./../util/logger');
+import Transition from 'semantic-ui-transition';
+import Accordion from 'semantic-ui-accordion';
+import Dropdown from 'semantic-ui-dropdown';
+import Tab from 'semantic-ui-tab';
 
-const ResourceTable = require('./resourceTable'),
-  GeneratorTable = require('./generatorTable');
+import Favicon from './../util/favicon';
+import Formatter from './../util/formatter';
+import Logger from './../util/logger';
 
-var Game = {
-  options: {
-    version: 0.01,
+import ResourceTable from './resourceTable';
+import GeneratorTable from './generatorTable';
 
-    fps: 30,
-    interval: 34
-  },
-
-  intervals: {},
-  resourceTable: {},
-
-  now: new Date().getTime(),
-  before: new Date().getTime(),
-
-  delta: function() {
+class Game {
+  constructor() {
+    this.options = {
+      version: 0.01,
+      fps: 20,
+      interval: 50
+    };
+    
+    this.now = new Date().getTime();
+    this.before = this.now;
+    
+    this.intervals = {};
+    this.resourceTable = {};
+    this.generatorTable = {};
+  }
+  
+  delta() {
     this.now = new Date().getTime();
 
     let elapsed = this.now - this.before,
@@ -34,9 +37,9 @@ var Game = {
     (elapsed > this.options.interval) ? this.render(times) : this.render(1);
 
     this.before = new Date().getTime();
-  },
-
-  render: function(times) {
+  }
+  
+  render(times) {
     for (let key in this.resourceTable) {
       let res = this.resourceTable[key];
 
@@ -49,9 +52,9 @@ var Game = {
       gen.progress(times);
       gen.render();
     }
-  },
-
-  domInit: function() {
+  }
+  
+  DOMInit() {
     $('.tabular.menu .item').tab();
     $('.ui.dropdown').dropdown({
       action: 'hide'
@@ -59,15 +62,15 @@ var Game = {
 		$('.ui.accordion').accordion({
       exclusive: false
 		});
-
+		
     for (let key in this.resourceTable)
       this.resourceTable[key].init();
 
     for (let key in this.generatorTable)
       this.generatorTable[key].init();
-  },
-
-  varInit: function() {
+  }
+  
+  VARInit() {
     $.fn.transition = Transition;
     $.fn.dropdown = Dropdown;
     $.fn.tab = Tab;
@@ -79,15 +82,12 @@ var Game = {
     this.intervals.core = setInterval(() => {
       this.delta();
     }, this.options.interval);
-  },
-
-  init: function() {
-    this.varInit();
-    this.domInit();
-
-    Logger(`Welcome to Universe-God.<br>
-      Quick briefing: your main goal is to create an habitable planet. Your first goal is to generate an atmosphere and create your first cells. Mass is the primary currency. You need atoms to create elements, such as water.<br>
-      Don't forget, it's an early prototype: no save, expect bugs and a bad balancing.<br>
-      Have fun!`, '#tab-logs');
   }
-}.init();
+  
+  init() {
+    this.VARInit();
+    this.DOMInit();
+  }
+}
+
+module.exports = Game;
