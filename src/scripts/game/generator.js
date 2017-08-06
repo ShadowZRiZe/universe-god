@@ -8,193 +8,158 @@ class Generator {
     this.name = opt.name;
     this.category = opt.category;
     this.income = opt.income;
-    this.price = opt.price;
+    this.cost = opt.cost;
     this.time = opt.time;
-
-    this.owned = opt.owned || 0;
+    
     this.inflation = opt.inflation || 1.15;
+    this.owned = opt.owned || 0;
+    this.progression = 0;
+    
     this.buttonID = opt.buttonID || undefined;
     this.barID = opt.barID || this.buttonID + '-bar';
     this.statsID = opt.statsID || this.buttonID + '-stats';
     this.pauseID = opt.pauseID || this.buttonID + '-pause';
     this.sellID = opt.sellID || this.buttonID + '-sell';
+
     this.visible = opt.visible || false;
     this.paused = opt.paused || false;
-
-    this.progression = 0;
-    this.complete = 0;
   }
-
-  getIncome() {
-    let income = [];
-
-    for (let key in this.income) {
+  
+  sufficient() {
+    let sufficient = [];
+    
+    for (let key in this.cost) {
       let res = this.game.resourceTable[key],
-        time = this.time,
-        amount = this.income[key] * this.owned,
-        sec = amount / time;
-
-      income.push(`+${Format(amount)} ${res.name} (${Format(sec)}/s)`);
+        cost = Math.floor(this.cost[key] * Math.pow(this.inflation, this.owned));
+      
+      (res.amount >= cost) ? sufficient.push(true) : sufficient.push(false);
     }
-
-    return `${income.join(', ')}`;
-  }
-
-  getPrice() {
-    let prices = [];
-
-    for (let key in this.price) {
-      let price = this.price[key];
-
-      prices.push(Math.floor(price * Math.pow(this.inflation, this.owned)));
-    }
-
-    return prices;
-  }
-
-  canBuy() {
-    let sufficient = [],
-      prices = this.getPrice(),
-      i = 0;
-
-    for (let key in this.price) {
-      let res = this.game.resourceTable[key],
-        amount = prices[i];
-
-      i++;
-
-      (res.amount >= amount) ? sufficient.push(true) : sufficient.push(false);
-    }
-
+    
     return sufficient.every((el) => el === true);
   }
-
+  
+  infos() {
+    let income = [],
+      cost = [];
+    
+    for (let key in this.income) {
+      let res = this.game.resourceTable[key];
+      
+      income.push(`+${Format(this.income[key])} ${res.name}`);
+    }
+    
+    for (let key in this.cost) {
+      let res = this.game.resourceTable[key],
+        price = Math.floor(this.cost[key] * Math.pow(this.inflation, this.owned));
+      
+      cost.push(`-${Format(price)} ${res.name}`);
+    }
+    
+    return {
+      income: income,
+      cost: cost
+    };
+  }
+  
   buy() {
-    let canBuy = this.canBuy(),
-      prices = this.getPrice(),
-      i = 0;
-
-    if (canBuy) {
-      for (let key in this.price) {
+    if (this.sufficient()) {
+      for (let key in this.cost) {
         let res = this.game.resourceTable[key],
-          amount = prices[i];
-
-        i++;
-
-        res.amount -= amount;
-        this.owned++;
+          cost = Math.floor(this.cost[key] * Math.pow(this.inflation, this.owned));
+        
+        res.amount -= cost;
       }
-
-      this.render('stats');
-      this.tooltip();
+      
+      this.owned++;
+      this.render(true);
     }
   }
-
-  earn() {
+  
+  sell() {
+    if (this.owned > 1) {
+      for (let key in this.cost) {
+        let res = this.game.resourceTable[key],
+          refund = Math.floor(this.cost[key] * Math.pow(this.inflation, this.owned - 1)) * 0.5;
+      
+        res.amount += refund;
+      }
+      
+      this.owned--;
+      this.render(true);
+    }
+  }
+  
+  pause() {
+    this.paused = !this.paused;
+    
+    if (this.paused)
+      $(`#${this.pauseID}`).removeClass('pause').addClass('play');
+    else
+      $(`#${this.pauseID}`).removeClass('play').addClass('pause');
+  }
+  
+  visibility(state) {
+    this.visible = state;
+    
+    (state) ? $(`#${this.buttonID}`).fadeIn() : $(`#${this.buttonID}`).fadeOut();
+    
+    this.render();
+  }
+  
+  process() {
+    this.progression = 0;
+    
     for (let key in this.income) {
       let res = this.game.resourceTable[key],
         amount = this.owned,
-        income = amount * this.income[key];
-
-      res.earn(amount, income);
+        income = this.income[key] * amount;
+      
+      res.earn(this.owned, income);
     }
   }
-
-  pause() {
-    this.paused = !this.paused;
-
-    if (this.paused) {
-      $(`#${this.pauseID}`).removeClass('pause').addClass('play');
-    }
-    else {
-      $(`#${this.pauseID}`).removeClass('play').addClass('pause');
-    }
-  }
-
-  sell() {
-    if (this.owned < 1)
-      return;
-
-    for (let key in this.price) {
-      let price = this.price[key],
-        res = this.game.resourceTable[key],
-        refund = Math.floor(price * Math.pow(this.inflation, this.owned - 1)) * 0.5;
-
-      res.amount += refund;
-    }
-
-    this.owned--;
-    this.render('stats');
-  }
-
-  visibility(visible) {
-    this.visible = visible;
-
-    if (visible)
-      $(`#${this.buttonID}`).fadeIn();
-    else
-      $(`#${this.buttonID}`).fadeOut();
-
-    this.render('stats');
-  }
-
+  
   progress(times) {
     if (this.owned > 0 && !this.paused)
-      this.progression += times / this.game.options.fps;
-
-    if (this.progression >= this.time) {
-      this.progression = 0;
-      this.completed++;
-      this.earn();
-    }
+     this.progression += times / this.game.options.fps;
+    
+    if (this.progression >= this.time)
+      this.process();
   }
+  
+  text() {
+    let cost = this.infos().cost,
+      income = this.infos().income;
 
+    return `<p><b>${this.name}</b>: ${income}; ${Format(this.time)}s.
+      <span>
+        ${cost}
+        <span class="ui label">${this.owned}</span>
+      </span>
+    </p>`;
+  }
+  
   tooltip() {
-    let income = this.getIncome(),
-      text = `${income}`;
-
-    $(`#${this.buttonID}`).attr('data-tooltip', text);
-  }
-
-  stats() {
     let income = [],
-      price = [],
-      prices = this.getPrice(),
-      i = 0;
-
+      cost = [];
+    
     for (let key in this.income) {
       let res = this.game.resourceTable[key],
-        amount = this.income[key];
+        amount = this.income[key] * this.owned,
+        sec = amount / this.time;
+      
+      income.push(`+${Format(amount)} ${res.name} (${Format(sec)}/s)`);
+      
+      for (let item in res.cost) {
+        let amount = res.cost[item] * this.owned,
+          sec = amount / this.time;
 
-      income.push(`+${Format(amount)} ${res.name}`);
+        cost.push(`-${Format(amount)} ${res.name} (${Format(sec)}/s)`);
+      }
     }
-
-    for (let key in this.price) {
-      let res = this.game.resourceTable[key],
-        amount = prices[i];
-
-      i++;
-
-      price.push(`-${Format(amount)} ${res.name}`);
-    }
-
-    return `<p>${this.name}: ${income.join(', ')}; ${Format(this.time)}s. <span>${price.join(', ')} <span class="ui label">${this.owned}</span></span></p>`;
+    
+    return `${income.join(', ')}; ${cost.join(', ')}`;
   }
-
-  render(type) {
-    if (!this.visible)
-      return;
-
-    if (this.statsID !== undefined && type === 'stats')
-      $(`#${this.statsID}`).html(this.stats());
-
-    if (this.barID !== undefined) {
-      let percent = (this.progression / this.time) * 100;
-
-      $(`#${this.barID}`).width(`${percent}%`);
-    }
-  }
-
+  
   template() {
     return `
     <div id="${this.buttonID}" class="accordion-button noselect">
@@ -215,7 +180,18 @@ class Generator {
       </div>
     </div>`;
   }
-
+  
+  render(fullRender) {
+    let percent = (this.progression / this.time) * 100;
+    
+    if (fullRender) {
+      $(`#${this.statsID}`).html(this.text());
+      $(`#${this.buttonID}`).attr('data-tooltip', this.tooltip());
+    }
+  
+    $(`#${this.barID}`).width(`${percent}%`);
+  }
+  
   init() {
     $(`#content-${this.category}`).append(this.template());
     $(`#${this.pauseID}`).click(() => this.pause());
@@ -225,8 +201,7 @@ class Generator {
     if (!this.visible)
       $(`#${this.buttonID}`).hide();
 
-    this.render('stats');
-    this.tooltip();
+    this.render(true);
   }
 }
 

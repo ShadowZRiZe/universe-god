@@ -10,7 +10,7 @@ module.exports = (game) => {
     category: 'mass',
     visible: true,
     income: { mass: 6 },
-    price: { mass: 10 },
+    cost: { mass: 10 },
     inflation: 1.15,
     time: 3,
     owned: 0
@@ -23,7 +23,7 @@ module.exports = (game) => {
     category: 'mass',
     visible: true,
     income: { mass: 40 },
-    price: { mass: 160 },
+    cost: { mass: 160 },
     inflation: 1.13,
     time: 7,
     owned: 0
@@ -36,7 +36,7 @@ module.exports = (game) => {
     category: 'mass',
     visible: true,
     income: { mass: 420 },
-    price: { mass: 2600 },
+    cost: { mass: 2600 },
     inflation: 1.11,
     time: 14,
     owned: 0
@@ -49,7 +49,7 @@ module.exports = (game) => {
     category: 'atom',
     visible: true,
     income: { oxygen: 1 },
-    price: { mass: 200 },
+    cost: { mass: 200 },
     inflation: 1.25,
     time: 60,
     owned: 0
@@ -62,7 +62,7 @@ module.exports = (game) => {
     category: 'atom',
     visible: true,
     income: { hydrogen: 1 },
-    price: { mass: 200 },
+    cost: { mass: 200 },
     inflation: 1.25,
     time: 60,
     owned: 0
@@ -75,7 +75,7 @@ module.exports = (game) => {
     category: 'atom',
     visible: true,
     income: { water: 1 },
-    price: { mass: 7500 },
+    cost: { mass: 7500 },
     inflation: 1.25,
     time: 15,
     owned: 0
