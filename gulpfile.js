@@ -23,8 +23,13 @@ const autoprefixer = require('gulp-autoprefixer');
 
 // Browser-sync params
 let bsParams = {
-  server: './build',
+  ui: {
+    port: 8081
+  },
   port: 8080,
+  
+  server: './build',
+  
   notify: false,
   logFileChanges: false
 };
