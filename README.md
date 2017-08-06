@@ -2,6 +2,11 @@
 	<img src="http://i.imgur.com/65GzXVK.png">
 </p>
 
+<p align="center">
+  <img src="https://david-dm.org/totominc/universe-god/status.svg">
+  <img src="https://david-dm.org/totominc/universe-god/dev-status.svg">
+</p>
+
 Universe-God is an incremental/idle-game where you build the entire universe from your God's hands, starting with atoms. Build a planet, generate an atmosphere, create civilization and more!
 
 ## Links
