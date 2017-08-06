@@ -9,5 +9,8 @@ cache:
 
 sudo: false
 
+before_script:
+  - npm install -g gulp-cli
+
 script:
-  - 'gulp lint'
+  - gulp eslint
