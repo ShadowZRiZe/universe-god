@@ -1,7 +1,7 @@
-const $ = require('jquery');
+import $ from 'jquery';
 
-const Format = require('./../util/formatter'),
-  Uppercase = require('./../util/uppercase');
+import Format from './../util/formatter';
+import Uppercase from './../util/uppercase';
 
 class Resource {
   constructor(opt) {

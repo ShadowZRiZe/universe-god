@@ -1,4 +1,4 @@
-const Generator = require('./generator');
+import Generator from './generator';
 
 module.exports = (game) => {
   let generatorTable = {};

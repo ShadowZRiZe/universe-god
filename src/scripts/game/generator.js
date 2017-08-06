@@ -1,5 +1,6 @@
-const $ = require('jquery'),
-  Format = require('./../util/formatter');
+import $ from 'jquery';
+
+import Format from './../util/formatter';
 
 class Generator {
   constructor(opt) {

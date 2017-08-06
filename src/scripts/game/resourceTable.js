@@ -1,4 +1,4 @@
-const Resource = require('./resource');
+import Resource from './resource';
 
 module.exports = (game) => {
   let resourceTable = {};
