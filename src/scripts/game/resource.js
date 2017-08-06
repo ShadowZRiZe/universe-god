@@ -47,9 +47,8 @@ class Resource {
       this.amount += income;
     }
 
-    if (this.independant) {
+    if (this.independant)
       this.amount += income;
-    }
   }
 
   visibility(visible) {
