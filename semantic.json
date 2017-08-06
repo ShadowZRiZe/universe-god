@@ -1,5 +1,5 @@
 {
-  "base": "semantic\\",
+  "base": "semantic",
   "paths": {
     "source": {
       "config": "src/theme.config",
@@ -10,8 +10,8 @@
     "output": {
       "packaged": "packaged",
       "uncompressed": "uncompressed",
-      "compressed": "packaged\\components",
-      "themes": "packaged\\themes"
+      "compressed": "packaged/components",
+      "themes": "packaged/themes"
     },
     "clean": "dist/"
   },
