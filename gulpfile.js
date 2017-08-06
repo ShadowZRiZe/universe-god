@@ -128,26 +128,12 @@ gulp.task('watch', () => {
   bs.init(bsParams);
 });
 
-gulp.task('soft-watcher', () => {
-  let watcher = watchify(browserify('./src/scripts/index.js'), watchify.args);
-
-  bundle(watcher);
-
-  watcher.on('update', () => {
-    bundle(watcher);
-  }).on('log', gutil.log);
-
-  bs.init(bsParams);
-});
-
 gulp.task('browserify', () => {
   return bundle(browserify('./src/scripts/index.js'));
 });
 
 // Public tasks
 gulp.task('default', ['watch']);
-
-gulp.task('soft-watch', ['soft-watcher']);
 
 gulp.task('prod', ['less-format', 'css-min', 'js-min']);
 
