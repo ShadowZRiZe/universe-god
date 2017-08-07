@@ -12,6 +12,8 @@ import Logger from './../util/logger';
 import ResourceTable from './resourceTable';
 import GeneratorTable from './generatorTable';
 
+import Temperature from './temperature';
+
 class Game {
   constructor() {
     this.options = {
@@ -26,6 +28,8 @@ class Game {
     this.intervals = {};
     this.resourceTable = {};
     this.generatorTable = {};
+    
+    this.temperature = undefined;
   }
   
   delta() {
@@ -52,6 +56,8 @@ class Game {
       gen.progress(times);
       gen.render();
     }
+    
+    this.temperature.render();
   }
   
   DOMInit() {
@@ -62,12 +68,6 @@ class Game {
 		$('.ui.accordion').accordion({
       exclusive: false
 		});
-		
-    for (let key in this.resourceTable)
-      this.resourceTable[key].init();
-
-    for (let key in this.generatorTable)
-      this.generatorTable[key].init();
   }
   
   VARInit() {
@@ -77,7 +77,16 @@ class Game {
     $.fn.accordion = Accordion;
 
     this.resourceTable = ResourceTable(this);
+    
+    for (let key in this.resourceTable)
+      this.resourceTable[key].init();
+    
     this.generatorTable = GeneratorTable(this);
+
+    for (let key in this.generatorTable)
+      this.generatorTable[key].init();
+    
+    this.temperature = new Temperature();
 
     this.intervals.core = setInterval(() => {
       this.delta();
