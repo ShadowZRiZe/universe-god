@@ -3,29 +3,52 @@ import $ from 'jquery';
 import Format from './../util/formatter';
 
 class Temperature {
-  constructor() {
+  constructor(game) {
+    this.game = game;
+    
+    this.value = 'n/a';
     this.celsius = 'n/a';
     this.fahrenheit = 'n/a';
+    
+    this.maxTemp = 25;
     
     this.init();
   }
   
-  setter(amount) {
-    this.celsius = amount;
-    this.fahrenheit = this.convert();
-  }
-  
   handle(action, amount) {
     if (action === '-')
-      this.celsius -= amount;
+      this.value -= amount;
     else if (action === '+')
-      this.celsius += amount;
+      this.value += amount;
     
-    this.fahrenheit = this.convert();
+    this.celsius = Format(this.value);
+    this.fahrenheit = Format(this.convert());
   }
   
   convert() {
-    return this.celsius * 9 / 5 + 32;
+    return this.value * 9 / 5 + 32;
+  }
+  
+  progress(times) {
+    if (this.game.itemTable.sun.owned) {
+      if (typeof this.value !== 'number') {
+        this.value = -173;
+        this.celsius = this.value;
+        this.fahrenheit = this.convert();
+      }
+      
+      if (this.value < 0) {
+        this.value += (times / this.game.options.fps) * 0.1;
+      }
+      else if (this.value <= this.maxTemp) {
+        this.value += (times / this.game.options.fps) * 0.01;
+      }
+      
+      this.celsius = Format(this.value);
+      this.fahrenheit = Format(this.convert());
+    }
+    
+    this.render();
   }
   
   template() {
@@ -37,7 +60,7 @@ class Temperature {
   }
   
   render() {
-    if (typeof this.celsius == 'number' && typeof this.fahrenheit == 'number')
+    if (typeof this.value === 'number')
       $('#display-temperature').html(Format(this.celsius, '°C'));
     else
       $('#display-temperature').html(this.celsius);

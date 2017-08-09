@@ -54,7 +54,7 @@ class Game {
       gen.render();
     }
     
-    this.temperature.render();
+    this.temperature.progress(times);
   }
   
   DOMInit() {
@@ -73,7 +73,7 @@ class Game {
     $.fn.tab = Tab;
     $.fn.accordion = Accordion;
     
-    this.temperature = new Temperature();
+    this.temperature = new Temperature(this);
 
     this.resourceTable = ResourceTable(this);
     for (let key in this.resourceTable) {
