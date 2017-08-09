@@ -1,7 +1,12 @@
-## Excluding some core scripts files that are not meant to be changed in any ways,
-## just because codeclimate tell there are issues with them.
-## I'm talking about you, tables scripts.
+engines:
+  eslint:
+    enabled: true
+
+ratings:
+  paths:
+  - src/**
+
 exclude_paths:
-- 'src/scripts/game/generatorTable.js'
-- 'src/scripts/game/itemTable.js'
-- 'src/scripts/game/resourceTable.js'
+- src/scripts/game/generatorTable.js
+- src/scripts/game/itemTable.js
+- src/scripts/game/resourceTable.js
