@@ -9,6 +9,7 @@ import Favicon from './../util/favicon';
 import Formatter from './../util/formatter';
 import Logger from './../util/logger';
 
+import ItemTable from './itemTable';
 import ResourceTable from './resourceTable';
 import GeneratorTable from './generatorTable';
 
@@ -26,10 +27,6 @@ class Game {
     this.before = this.now;
     
     this.intervals = {};
-    this.resourceTable = {};
-    this.generatorTable = {};
-    
-    this.temperature = undefined;
   }
   
   delta() {
@@ -75,18 +72,23 @@ class Game {
     $.fn.dropdown = Dropdown;
     $.fn.tab = Tab;
     $.fn.accordion = Accordion;
-
-    this.resourceTable = ResourceTable(this);
-    
-    for (let key in this.resourceTable)
-      this.resourceTable[key].init();
-    
-    this.generatorTable = GeneratorTable(this);
-
-    for (let key in this.generatorTable)
-      this.generatorTable[key].init();
     
     this.temperature = new Temperature();
+
+    this.resourceTable = ResourceTable(this);
+    for (let key in this.resourceTable) {
+      this.resourceTable[key].init();
+    }
+    
+    this.generatorTable = GeneratorTable(this);
+    for (let key in this.generatorTable) {
+      this.generatorTable[key].init();
+    }
+    
+    this.itemTable = ItemTable(this);
+    for (let key in this.itemTable) {
+      this.itemTable[key].init();
+    }
 
     this.intervals.core = setInterval(() => {
       this.delta();

@@ -12,6 +12,8 @@
 	<link rel="stylesheet" href="components/font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="components/semantic/semantic.min.css">
 	<link rel="stylesheet" href="styles/universe-god.css">
+	
+	<script src="https://www.paypalobjects.com/api/checkout.min.js"></script>
 </head>
 
 <body>
@@ -65,13 +67,14 @@
 				<div class="ui top attached tabular menu">
 					<a class="active item" data-tab="tab-logs"><i class="terminal icon"></i> Logs</a>
 					<a class="item" data-tab="tab-generators"><i class="industry icon"></i> Generators</a>
+					<a class="item" data-tab="tab-items"><i class="cubes icon"></i> Items</a>
 				</div>
 
 				<!-- Logs tab -->
 				<div id="tab-logs" class="ui bottom attached active tab segment console" data-tab="tab-logs"></div>
 
 				<!-- Generators tab -->
-				<div class="ui bottom attached tab segment" data-tab="tab-generators">
+				<div id="tab-generators" class="ui bottom attached tab segment" data-tab="tab-generators">
 					<div class="ui styled accordion button-content">
 						<!-- Mass related -->
 						<div class="title active">
@@ -87,6 +90,18 @@
 
 						<div id="content-atom" class="content active"></div>
 					</div>
+				</div>
+				
+				<!-- Items tab -->
+				<div id="tab-items" class="ui bottom attached tab segment" data-tab="tab-items">
+				  <div class="ui styled accordion button-content">
+				    <!-- Planet related items -->
+						<div class="title active">
+							<i class="dropdown icon"></i> Planet items
+						</div>
+
+						<div id="content-planet" class="content active"></div>
+				  </div>
 				</div>
 			</div>
 		</div>
