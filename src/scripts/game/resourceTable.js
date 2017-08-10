@@ -12,7 +12,7 @@ module.exports = (game) => {
     resourceContainer: 'resources-container',
     independant: true,
     visible: true,
-    amount: 10
+    amount: 1e9
   });
   
   resourceTable['water'] = new Resource({
@@ -55,6 +55,28 @@ module.exports = (game) => {
     name: 'helium',
     resourceHolder: 'holder-helium',
     resourceID: 'display-helium',
+    resourceContainer: 'resources-container',
+    independant: true,
+    visible: true,
+    amount: 0
+  });
+  
+  resourceTable['dinitrogen'] = new Resource({
+    game: game,
+    name: 'dinitrogen',
+    resourceHolder: 'holder-dinitrogen',
+    resourceID: 'display-dinitrogen',
+    resourceContainer: 'resources-container',
+    independant: true,
+    visible: true,
+    amount: 0
+  });
+  
+  resourceTable['argon'] = new Resource({
+    game: game,
+    name: 'argon',
+    resourceHolder: 'holder-argon',
+    resourceID: 'display-argon',
     resourceContainer: 'resources-container',
     independant: true,
     visible: true,

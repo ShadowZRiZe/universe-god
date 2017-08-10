@@ -3,9 +3,10 @@ import Generator from './generator';
 module.exports = (game) => {
   let generatorTable = {};
 
+  // Mass generators
   generatorTable['mass-1'] = new Generator({
     game: game,
-    name: 'Generator 1',
+    name: 'Massgen 1',
     buttonID: 'btn-mass-1',
     category: 'mass',
     visible: true,
@@ -14,43 +15,81 @@ module.exports = (game) => {
     inflation: 1.15,
     time: 3,
     level: 0,
-    levelCost: 750,
+    levelCost: 500,
     levelEffect: 2,
+    successEffect: 2,
     owned: 0
   });
 
   generatorTable['mass-2'] = new Generator({
     game: game,
-    name: 'Generator 2',
+    name: 'Massgen 2',
     buttonID: 'btn-mass-2',
     category: 'mass',
     visible: true,
     income: { mass: 40 },
-    cost: { mass: 160 },
-    inflation: 1.13,
-    time: 7,
+    cost: { mass: 760 },
+    inflation: 1.15,
+    time: 6,
     level: 0,
-    levelCost: 1500,
+    levelCost: 1750,
     levelEffect: 2,
+    successEffect: 2,
     owned: 0
   });
 
   generatorTable['mass-3'] = new Generator({
     game: game,
-    name: 'Generator 3',
+    name: 'Massgen 3',
     buttonID: 'btn-mass-3',
     category: 'mass',
     visible: true,
-    income: { mass: 420 },
-    cost: { mass: 2600 },
-    inflation: 1.11,
-    time: 14,
+    income: { mass: 660 },
+    cost: { mass: 9420 },
+    inflation: 1.15,
+    time: 12,
     level: 0,
-    levelCost: 5000,
+    levelCost: 22500,
     levelEffect: 2,
+    successEffect: 2,
+    owned: 0
+  });
+  
+  generatorTable['mass-4'] = new Generator({
+    game: game,
+    name: 'Massgen 4',
+    buttonID: 'btn-mass-4',
+    category: 'mass',
+    visible: true,
+    income: { mass: 24400 },
+    cost: { mass: 420770 },
+    inflation: 1.15,
+    time: 24,
+    level: 0,
+    levelCost: 1250000,
+    levelEffect: 2,
+    successEffect: 2,
+    owned: 0
+  });
+  
+  generatorTable['mass-5'] = new Generator({
+    game: game,
+    name: 'Massgen 5',
+    buttonID: 'btn-mass-5',
+    category: 'mass',
+    visible: true,
+    income: { mass: 469000 },
+    cost: { mass: 5333000 },
+    inflation: 1.15,
+    time: 96,
+    level: 0,
+    levelCost: 50000000,
+    levelEffect: 2,
+    successEffect: 2,
     owned: 0
   });
 
+  // Atoms generators
   generatorTable['oxygen-1'] = new Generator({
     game: game,
     name: 'Oxygener',
@@ -64,6 +103,7 @@ module.exports = (game) => {
     level: 0,
     levelCost: 250e3,
     levelEffect: 3,
+    successEffect: 3,
     owned: 0
   });
 
@@ -80,6 +120,7 @@ module.exports = (game) => {
     level: 0,
     levelCost: 250e3,
     levelEffect: 3,
+    successEffect: 3,
     owned: 0
   });
   
@@ -96,9 +137,11 @@ module.exports = (game) => {
     level: 0,
     levelCost: 250e3,
     levelEffect: 3,
+    successEffect: 3,
     owned: 0
   });
 
+  // Elements generators
   generatorTable['water-1'] = new Generator({
     game: game,
     name: 'Watergen',
@@ -112,6 +155,7 @@ module.exports = (game) => {
     level: 0,
     levelCost: 1e6,
     levelEffect: 3,
+    successEffect: 2,
     owned: 0
   });
 

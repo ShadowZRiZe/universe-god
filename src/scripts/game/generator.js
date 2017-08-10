@@ -13,11 +13,15 @@ class Generator {
     
     this.inflation = opt.inflation || 1.15;
     this.owned = opt.owned || 0;
+    this.progression = 0;
+    
+    this.successEffect = opt.successEffect;
+    this.milestones = [10, 25, 50, 75, 100, 150, 200, 300, 400, 500, 600, 666, 700, 777, 800, 900, 1000];
+    
     this.level = opt.level || 0;
     this.levelCost = opt.levelCost;
     this.levelEffect = opt.levelEffect;
     this.levelInflation = 5;
-    this.progression = 0;
     
     this.buttonID = opt.buttonID || undefined;
     this.barID = this.buttonID + '-bar';
@@ -25,9 +29,31 @@ class Generator {
     this.pauseID = this.buttonID + '-pause';
     this.sellID = this.buttonID + '-sell';
     this.upgradeID = this.buttonID + '-upgrade';
+    this.successID = this.buttonID + '-success';
 
     this.visible = opt.visible || false;
     this.paused = opt.paused || false;
+  }
+  
+  getSuccessPlace() {
+    let milestone = -1;
+    
+    for (let i = 0; i < this.milestones.length; i++) {
+      if (this.owned >= this.milestones[i] && this.owned < this.milestones[i + 1]) {
+        milestone = i;
+      }
+    }
+
+    return milestone + 1;
+  }
+  
+  getTimeMult() {
+    if (this.getSuccessPlace() < 1) {
+      return 1;
+    }
+    else {
+      return this.getSuccessPlace() * this.successEffect;
+    }
   }
   
   getUpgradeMult() {
@@ -144,18 +170,23 @@ class Generator {
   }
   
   progress(times) {
-    if (this.owned > 0 && !this.paused)
-     this.progression += times / this.game.options.fps;
+    let time = this.time / this.getTimeMult();
     
-    if (this.progression >= this.time)
+    if (this.owned > 0 && !this.paused) {
+     this.progression += times / this.game.options.fps;
+    }
+    
+    if (this.progression >= time) {
       this.process();
+    }
   }
   
   text() {
     let cost = this.infos().cost,
-      income = this.infos().income;
+      income = this.infos().income,
+      time = this.time / this.getTimeMult();
 
-    return `<p><b>${this.name}</b>: ${income}; ${Format(this.time)}s.
+    return `<p><b>${this.name}</b>: ${income}; ${Format(time)}s.
       <span>
         ${cost}
         <span class="ui label">${this.owned}</span>
@@ -166,12 +197,14 @@ class Generator {
   tooltip() {
     let income = [],
       cost = [],
+      milestone = this.getSuccessPlace(),
+      time = this.time / this.getTimeMult(),
       upgrade = Math.floor(this.levelCost * Math.pow(this.levelInflation, this.level + 1));
     
     for (let key in this.income) {
       let res = this.game.resourceTable[key],
         amount = (this.income[key] * this.getUpgradeMult()) * this.owned,
-        sec = amount / this.time;
+        sec = amount / time;
       
       income.push(`+${Format(amount)} ${res.name} (${Format(sec)}/s)`);
       
@@ -184,7 +217,8 @@ class Generator {
     
     return {
       stats: `${income.join(', ')}; ${cost.join(', ')}`,
-      upgrade: `Upgrade: -${Format(upgrade)} mass, x${this.levelEffect} base prod.`
+      upgrade: `Upgrade: -${Format(upgrade)} mass, x${this.levelEffect} base prod.`,
+      success: `Success: own ${this.milestones[milestone]} ${this.name}, time /${this.successEffect}.`
     };
   }
   
@@ -207,7 +241,12 @@ class Generator {
             <i id="${this.upgradeID}" class="angle double up icon accordion-icon"></i>
           </div>
         </div>
-        <div class="twelve wide column buy">
+        <div class="one wide column success">
+          <div>
+            <i id="${this.successID}" class="trophy icon accordion-icon"></i>
+          </div>
+        </div>
+        <div class="eleven wide column buy">
           <p id="${this.statsID}"></p>
         </div>
       </div>
@@ -219,15 +258,22 @@ class Generator {
   }
   
   render(fullRender) {
-    let percent = (this.progression / this.time) * 100,
+    let time = this.time / this.getTimeMult(),
+      percent = (this.progression / time) * 100,
       tooltip = this.tooltip();
+    
+    if (time < .25) {
+      $(`#${this.barID}`).width('100%');
+    }
+    else {
+      $(`#${this.barID}`).width(`${percent}%`);
+    }
     
     if (fullRender) {
       $(`#${this.statsID}`).html(this.text()).attr('data-tooltip', tooltip.stats);
       $(`#${this.upgradeID}`).parent().attr('data-tooltip', tooltip.upgrade);
+      $(`#${this.successID}`).parent().attr('data-tooltip', tooltip.success);
     }
-  
-    $(`#${this.barID}`).width(`${percent}%`);
   }
   
   init() {
