@@ -159,7 +159,7 @@ gulp.task('build', () => {
 });
 
 gulp.task('watcher-build', () => {
-  runSequence('copy-index', 'copy-images');
+  runSequence('copy-index');
   runSequence('less-to-css');
   runSequence('eslint');
 });
