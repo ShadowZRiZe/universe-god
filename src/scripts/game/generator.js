@@ -176,10 +176,9 @@ class Generator {
       income.push(`+${Format(amount)} ${res.name} (${Format(sec)}/s)`);
       
       for (let item in res.cost) {
-        let amount = res.cost[item] * this.owned,
-          sec = amount / this.time;
+        let amount = res.cost[item] * this.owned;
 
-        cost.push(`-${Format(amount)} ${res.name} (${Format(sec)}/s)`);
+        cost.push(`-${Format(amount)} ${item}`);
       }
     }
     
