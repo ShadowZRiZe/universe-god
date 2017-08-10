@@ -37,7 +37,6 @@ let bsParams = {
 // Bundle function
 let bundle = (bundler) => {
   return bundler
-    .transform('babelify', { presets: ['es2015'] })
     .bundle()
     .on('error', (err) => gutil.log(err))
     .pipe(source('universe-god.js'))
@@ -114,7 +113,15 @@ gulp.task('copy-favicon', () => {
 
 // Global tasks
 gulp.task('watch', () => {
-  let watcher = watchify(browserify('./src/scripts/index.js'), watchify.args);
+  let watcher = watchify(
+    browserify({
+      entries: ['./src/scripts/index.js'],
+      debug: true,
+      cache: {},
+      packageCache: {}
+    })
+    .transform(babelify, { presets: ['es2015'] })
+  );
 
   bundle(watcher);
 
