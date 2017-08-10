@@ -98,6 +98,8 @@ class Game {
   init() {
     this.VARInit();
     this.DOMInit();
+    
+    Logger('welcome to Universe-God. Your goal is to make this planet habitable, good luck!', '#tab-logs');
   }
 }
 
