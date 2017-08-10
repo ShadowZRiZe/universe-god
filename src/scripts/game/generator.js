@@ -13,16 +13,30 @@ class Generator {
     
     this.inflation = opt.inflation || 1.15;
     this.owned = opt.owned || 0;
+    this.level = opt.level || 0;
+    this.levelCost = opt.levelCost;
+    this.levelEffect = opt.levelEffect;
+    this.levelInflation = 5;
     this.progression = 0;
     
     this.buttonID = opt.buttonID || undefined;
-    this.barID = opt.barID || this.buttonID + '-bar';
-    this.statsID = opt.statsID || this.buttonID + '-stats';
-    this.pauseID = opt.pauseID || this.buttonID + '-pause';
-    this.sellID = opt.sellID || this.buttonID + '-sell';
+    this.barID = this.buttonID + '-bar';
+    this.statsID = this.buttonID + '-stats';
+    this.pauseID = this.buttonID + '-pause';
+    this.sellID = this.buttonID + '-sell';
+    this.upgradeID = this.buttonID + '-upgrade';
 
     this.visible = opt.visible || false;
     this.paused = opt.paused || false;
+  }
+  
+  getUpgradeMult() {
+    if (this.level < 1) {
+      return 1;
+    }
+    else {
+      return this.level * this.levelEffect;
+    }
   }
   
   sufficient() {
@@ -43,9 +57,10 @@ class Generator {
       cost = [];
     
     for (let key in this.income) {
-      let res = this.game.resourceTable[key];
+      let res = this.game.resourceTable[key],
+        baseIncome = this.income[key] * this.getUpgradeMult();
       
-      income.push(`+${Format(this.income[key])} ${res.name}`);
+      income.push(`+${Format(baseIncome)} ${res.name}`);
     }
     
     for (let key in this.cost) {
@@ -59,6 +74,16 @@ class Generator {
       income: income,
       cost: cost
     };
+  }
+  
+  upgrade() {
+    let cost = Math.floor(this.levelCost * Math.pow(this.levelInflation, this.level + 1));
+    
+    if (this.game.resourceTable.mass.amount >= cost) {
+      this.game.resourceTable.mass.amount -= cost;
+      this.level++;
+      this.render(true);
+    }
   }
   
   buy() {
@@ -112,7 +137,7 @@ class Generator {
     for (let key in this.income) {
       let res = this.game.resourceTable[key],
         amount = this.owned,
-        income = this.income[key] * amount;
+        income = (this.income[key] * this.getUpgradeMult()) * amount;
       
       res.earn(this.owned, income);
     }
@@ -140,11 +165,12 @@ class Generator {
   
   tooltip() {
     let income = [],
-      cost = [];
+      cost = [],
+      upgrade = Math.floor(this.levelCost * Math.pow(this.levelInflation, this.level + 1));
     
     for (let key in this.income) {
       let res = this.game.resourceTable[key],
-        amount = this.income[key] * this.owned,
+        amount = (this.income[key] * this.getUpgradeMult()) * this.owned,
         sec = amount / this.time;
       
       income.push(`+${Format(amount)} ${res.name} (${Format(sec)}/s)`);
@@ -157,7 +183,10 @@ class Generator {
       }
     }
     
-    return `${income.join(', ')}; ${cost.join(', ')}`;
+    return {
+      stats: `${income.join(', ')}; ${cost.join(', ')}`,
+      upgrade: `Upgrade: -${Format(upgrade)} mass, x${this.levelEffect} base prod.`
+    };
   }
   
   template() {
@@ -165,12 +194,21 @@ class Generator {
     <div id="${this.buttonID}" class="accordion-button noselect">
       <div class="ui grid grid-accordion">
         <div class="two wide column pause">
-          <i id="${this.pauseID}" class="pause icon accordion-pause"></i>
+          <div>
+            <i id="${this.pauseID}" class="pause icon accordion-icon"></i>
+          </div>
         </div>
         <div class="one wide column sell">
-          <i id="${this.sellID}" class="dollar icon accordion-pause"></i>
+          <div>
+            <i id="${this.sellID}" class="dollar icon accordion-icon"></i>
+          </div>
         </div>
-        <div class="thirteen wide column buy">
+        <div class="one wide column upgrade">
+          <div>
+            <i id="${this.upgradeID}" class="angle double up icon accordion-icon"></i>
+          </div>
+        </div>
+        <div class="twelve wide column buy">
           <p id="${this.statsID}"></p>
         </div>
       </div>
@@ -182,11 +220,12 @@ class Generator {
   }
   
   render(fullRender) {
-    let percent = (this.progression / this.time) * 100;
+    let percent = (this.progression / this.time) * 100,
+      tooltip = this.tooltip();
     
     if (fullRender) {
-      $(`#${this.statsID}`).html(this.text());
-      $(`#${this.buttonID}`).attr('data-tooltip', this.tooltip());
+      $(`#${this.statsID}`).html(this.text()).attr('data-tooltip', tooltip.stats);
+      $(`#${this.upgradeID}`).parent().attr('data-tooltip', tooltip.upgrade);
     }
   
     $(`#${this.barID}`).width(`${percent}%`);
@@ -197,6 +236,7 @@ class Generator {
     $(`#${this.pauseID}`).click(() => this.pause());
     $(`#${this.sellID}`).click(() => this.sell());
     $(`#${this.statsID}`).click(() => this.buy());
+    $(`#${this.upgradeID}`).click(() => this.upgrade());
 
     if (!this.visible)
       $(`#${this.buttonID}`).hide();

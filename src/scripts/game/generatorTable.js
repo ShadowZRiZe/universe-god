@@ -13,6 +13,9 @@ module.exports = (game) => {
     cost: { mass: 10 },
     inflation: 1.15,
     time: 3,
+    level: 0,
+    levelCost: 750,
+    levelEffect: 2,
     owned: 0
   });
 
@@ -26,6 +29,9 @@ module.exports = (game) => {
     cost: { mass: 160 },
     inflation: 1.13,
     time: 7,
+    level: 0,
+    levelCost: 1500,
+    levelEffect: 2,
     owned: 0
   });
 
@@ -39,6 +45,9 @@ module.exports = (game) => {
     cost: { mass: 2600 },
     inflation: 1.11,
     time: 14,
+    level: 0,
+    levelCost: 5000,
+    levelEffect: 2,
     owned: 0
   });
 
@@ -52,6 +61,9 @@ module.exports = (game) => {
     cost: { mass: 200 },
     inflation: 1.25,
     time: 60,
+    level: 0,
+    levelCost: 250e3,
+    levelEffect: 3,
     owned: 0
   });
 
@@ -65,6 +77,25 @@ module.exports = (game) => {
     cost: { mass: 200 },
     inflation: 1.25,
     time: 60,
+    level: 0,
+    levelCost: 250e3,
+    levelEffect: 3,
+    owned: 0
+  });
+  
+  generatorTable['helium-1'] = new Generator({
+    game: game,
+    name: 'Heliumizer',
+    buttonID: 'btn-helium-1',
+    category: 'atom',
+    visible: true,
+    income: { helium: 1 },
+    cost: { mass: 200 },
+    inflation: 1.25,
+    time: 60,
+    level: 0,
+    levelCost: 250e3,
+    levelEffect: 3,
     owned: 0
   });
 
@@ -78,6 +109,9 @@ module.exports = (game) => {
     cost: { mass: 7500 },
     inflation: 1.25,
     time: 15,
+    level: 0,
+    levelCost: 1e6,
+    levelEffect: 3,
     owned: 0
   });
 
