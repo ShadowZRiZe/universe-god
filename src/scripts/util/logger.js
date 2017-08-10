@@ -5,7 +5,7 @@ const $ = require('jquery'),
 module.exports = function(str, el) {
   let rand = Math.floor(Math.random() * 1e6),
     time = Moment().format('LTS'),
-    text = `<span>${time}</span> ${str}`;
+    text = `<span>${time}</span>: ${str}`;
 
   $(el).append(`<p><span id="typed-${rand}"></span></p>`);
 
