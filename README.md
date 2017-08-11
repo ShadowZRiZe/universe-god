@@ -6,7 +6,6 @@
   <img src="https://david-dm.org/totominc/universe-god/status.svg">
   <img src="https://david-dm.org/totominc/universe-god/dev-status.svg">
   <img src="https://travis-ci.org/TotomInc/universe-god.svg?branch=dev">
-  <img src="https://codeclimate.com/github/TotomInc/universe-god/badges/gpa.svg">
 </p>
 
 Universe-God is an incremental/idle-game where you build the entire universe from your God's hands, starting with atoms. Build a planet, generate an atmosphere, create civilization and more!
