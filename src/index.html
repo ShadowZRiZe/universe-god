@@ -7,20 +7,16 @@
 	<title>Universe-God - incremental-game</title>
 	<meta name="description" content="An incremental-game where you build the entire universe from your God's hands, starting with atoms. Build a planet, atmosphere, civilization and more!">
 
-	<link rel="icon" href="favicon.ico">
-
-	<link rel="stylesheet" href="components/font-awesome/css/font-awesome.min.css">
-	<link rel="stylesheet" href="components/semantic/semantic.min.css">
-	<link rel="stylesheet" href="styles/universe-god.css">
-	
-	<script src="https://www.paypalobjects.com/api/checkout.min.js"></script>
+	<!-- build:css -->
+	<link rel="stylesheet" href="styles/bundle.css">
+	<!-- endbuild -->
 </head>
 
 <body>
-	<!-- Navbar -->
+  <!-- Navbar -->
 	<div class="ui top attached menu">
 		<div class="item nav-logo">
-			<img src="images/logo/atom.svg">
+			<img src="assets/atom.svg">
 			<span>Chapter I: Earth reconstruction</span>
 		</div>
 
@@ -90,7 +86,7 @@
 						<div id="content-atom" class="content active"></div>
 					</div>
 				</div>
-				
+
 				<!-- Items tab -->
 				<div id="tab-items" class="ui bottom attached tab segment" data-tab="tab-items">
 				  <div class="ui styled accordion button-content">
@@ -106,6 +102,7 @@
 		</div>
 	</div>
 
-	<script src="scripts/universe-god.js"></script>
+	<!-- build:js -->
+	<script src="scripts/bundle.js"></script>
+	<!-- endbuild -->
 </body>
-</html>
