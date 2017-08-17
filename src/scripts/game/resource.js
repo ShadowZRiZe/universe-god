@@ -1,6 +1,6 @@
 import $ from 'jquery';
 
-import Format from './../util/formatter';
+import { format } from './../formatter/index';
 import Uppercase from './../util/uppercase';
 
 class Resource {
@@ -73,9 +73,9 @@ class Resource {
 
     if (this.resourceID !== undefined) {
       if (this.suffix !== undefined)
-        $(`#${this.resourceID}`).html(`${Format(this.amount, this.suffix)}`);
+        $(`#${this.resourceID}`).html(`${format(this.amount, null, this.suffix)}`);
       else
-        $(`#${this.resourceID}`).html(`${Format(this.amount)}`);
+        $(`#${this.resourceID}`).html(`${format(this.amount)}`);
     }
   }
 

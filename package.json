@@ -39,7 +39,6 @@
     "watchify": "^3.9.0"
   },
   "dependencies": {
-    "decimal.js": "^7.2.3",
     "favico.js": "^0.3.10",
     "jquery": "^3.2.1",
     "moment": "^2.18.1",
@@ -48,7 +47,6 @@
     "semantic-ui-dropdown": "^2.2.11",
     "semantic-ui-tab": "^2.2.11",
     "semantic-ui-transition": "^2.2.11",
-    "swarm-numberformat": "^0.3.5",
     "typed.js": "^2.0.2"
   }
 }
