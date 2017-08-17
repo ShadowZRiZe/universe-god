@@ -1,3 +1,5 @@
+// TODO: use Gulp 4.0.0 with gulp.series and gulp.parallel instead of run-sequence
+// TODO: add prod task before deploy
 var chalkrainbow = require('chalk-rainbow');
 
 var gulp = require('gulp');
@@ -5,6 +7,7 @@ var gutil = require('gulp-util');
 var clean = require('gulp-clean');
 var watch = require('gulp-watch');
 var rename = require('gulp-rename');
+var ghpages = require('gulp-gh-pages');
 
 var less = require('gulp-less');
 var cleancss = require('gulp-clean-css');
@@ -109,6 +112,12 @@ gulp.task('server', () => {
   });
 });
 
+// Deploy build/ to gulp-gh-pages
+gulp.task('gh-pages', () => {
+  return gulp.src('./build/**/*')
+    .pipe(ghpages());
+});
+
 // Global tasks
 gulp.task('build', () => {
   runseq(
@@ -156,6 +165,15 @@ gulp.task('watch', () => {
       gulp.watch('./src/styles/**/*.less', () => {
         runseq('less', () => bs.reload());
       });
+    }
+  );
+});
+
+gulp.task('deploy', () => {
+  runseq(
+    'gh-pages', () => {
+      gutil.log(chalkrainbow('gh-pages deploy successfull!'));
+      process.exit();
     }
   );
 });
