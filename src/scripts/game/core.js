@@ -6,7 +6,7 @@ import Dropdown from 'semantic-ui-dropdown';
 import Tab from 'semantic-ui-tab';
 
 import Favicon from './../util/favicon';
-import Formatter from './../util/formatter';
+import { format } from './../formatter/index';
 import Logger from './../util/logger';
 
 import ItemTable from './itemTable';
@@ -22,13 +22,13 @@ class Game {
       fps: 20,
       interval: 50
     };
-    
+
     this.now = new Date().getTime();
     this.before = this.now;
-    
+
     this.intervals = {};
   }
-  
+
   delta() {
     this.now = new Date().getTime();
 
@@ -39,7 +39,7 @@ class Game {
 
     this.before = new Date().getTime();
   }
-  
+
   render(times) {
     for (let key in this.resourceTable) {
       let res = this.resourceTable[key];
@@ -53,10 +53,10 @@ class Game {
       gen.progress(times);
       gen.render();
     }
-    
+
     this.temperature.progress(times);
   }
-  
+
   DOMInit() {
     $('.tabular.menu .item').tab();
     $('.ui.dropdown').dropdown({
@@ -66,25 +66,25 @@ class Game {
       exclusive: false
 		});
   }
-  
+
   VARInit() {
     $.fn.transition = Transition;
     $.fn.dropdown = Dropdown;
     $.fn.tab = Tab;
     $.fn.accordion = Accordion;
-    
+
     this.temperature = new Temperature(this);
 
     this.resourceTable = ResourceTable(this);
     for (let key in this.resourceTable) {
       this.resourceTable[key].init();
     }
-    
+
     this.generatorTable = GeneratorTable(this);
     for (let key in this.generatorTable) {
       this.generatorTable[key].init();
     }
-    
+
     this.itemTable = ItemTable(this);
     for (let key in this.itemTable) {
       this.itemTable[key].init();
@@ -94,11 +94,11 @@ class Game {
       this.delta();
     }, this.options.interval);
   }
-  
+
   init() {
     this.VARInit();
     this.DOMInit();
-    
+
     Logger('welcome to Universe-God. Your goal is to make this planet habitable, good luck!', '#tab-logs');
   }
 }

@@ -1,34 +1,34 @@
 import $ from 'jquery';
 
-import Format from './../util/formatter';
+import { format } from './../formatter/index';
 
 class Temperature {
   constructor(game) {
     this.game = game;
-    
+
     this.value = 'n/a';
     this.celsius = 'n/a';
     this.fahrenheit = 'n/a';
-    
+
     this.maxTemp = 25;
-    
+
     this.init();
   }
-  
+
   handle(action, amount) {
     if (action === '-')
       this.value -= amount;
     else if (action === '+')
       this.value += amount;
-    
-    this.celsius = Format(this.value);
-    this.fahrenheit = Format(this.convert());
+
+    this.celsius = format(this.value);
+    this.fahrenheit = format(this.convert());
   }
-  
+
   convert() {
     return this.value * 9 / 5 + 32;
   }
-  
+
   progress(times) {
     if (this.game.itemTable.sun.owned) {
       if (typeof this.value !== 'number') {
@@ -36,21 +36,21 @@ class Temperature {
         this.celsius = this.value;
         this.fahrenheit = this.convert();
       }
-      
+
       if (this.value < 0) {
         this.value += (times / this.game.options.fps) * 0.1;
       }
       else if (this.value <= this.maxTemp) {
         this.value += (times / this.game.options.fps) * 0.01;
       }
-      
-      this.celsius = Format(this.value);
-      this.fahrenheit = Format(this.convert());
+
+      this.celsius = format(this.value);
+      this.fahrenheit = format(this.convert());
     }
-    
+
     this.render();
   }
-  
+
   template() {
     return `
     <p id="holder-temperature">Temperature
@@ -58,14 +58,14 @@ class Temperature {
     </p>
     `;
   }
-  
+
   render() {
     if (typeof this.value === 'number')
-      $('#display-temperature').html(Format(this.celsius, '°C'));
+      $('#display-temperature').html(format(this.celsius, null, '°C'));
     else
       $('#display-temperature').html(this.celsius);
   }
-  
+
   init() {
     $('#overview-container').append(this.template());
   }
