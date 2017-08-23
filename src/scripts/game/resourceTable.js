@@ -1,4 +1,5 @@
-import Resource from './resource';
+// import Resource from './resource';
+import { Resource } from './resources/';
 
 module.exports = (game) => {
   let resourceTable = {};
@@ -7,22 +8,17 @@ module.exports = (game) => {
     game: game,
     name: 'mass',
     suffix: 'kg',
-    resourceHolder: 'holder-mass',
-    resourceID: 'display-mass',
-    resourceContainer: 'resources-container',
-    independant: true,
+    holderID: 'overview-container',
+    dependent: false,
     visible: true,
-    amount: 1e9
+    amount: 10
   });
-  
+
   resourceTable['water'] = new Resource({
     game: game,
     name: 'water',
     suffix: 'L',
-    resourceHolder: 'holder-water',
-    resourceID: 'display-water',
-    resourceContainer: 'resources-container',
-    independant: false,
+    dependent: true,
     cost: { hydrogen: 2, oxygen: 1 },
     visible: true,
     amount: 0
@@ -31,10 +27,7 @@ module.exports = (game) => {
   resourceTable['oxygen'] = new Resource({
     game: game,
     name: 'oxygen',
-    resourceHolder: 'holder-oxygen',
-    resourceID: 'display-oxygen',
-    resourceContainer: 'resources-container',
-    independant: true,
+    dependent: false,
     visible: true,
     amount: 0
   });
@@ -42,43 +35,31 @@ module.exports = (game) => {
   resourceTable['hydrogen'] = new Resource({
     game: game,
     name: 'hydrogen',
-    resourceHolder: 'holder-hydrogen',
-    resourceID: 'display-hydrogen',
-    resourceContainer: 'resources-container',
-    independant: true,
+    dependent: false,
     visible: true,
     amount: 0
   });
-  
+
   resourceTable['helium'] = new Resource({
     game: game,
     name: 'helium',
-    resourceHolder: 'holder-helium',
-    resourceID: 'display-helium',
-    resourceContainer: 'resources-container',
-    independant: true,
+    dependent: false,
     visible: true,
     amount: 0
   });
-  
+
   resourceTable['dinitrogen'] = new Resource({
     game: game,
     name: 'dinitrogen',
-    resourceHolder: 'holder-dinitrogen',
-    resourceID: 'display-dinitrogen',
-    resourceContainer: 'resources-container',
-    independant: true,
+    dependent: false,
     visible: true,
     amount: 0
   });
-  
+
   resourceTable['argon'] = new Resource({
     game: game,
     name: 'argon',
-    resourceHolder: 'holder-argon',
-    resourceID: 'display-argon',
-    resourceContainer: 'resources-container',
-    independant: true,
+    dependent: false,
     visible: true,
     amount: 0
   });
