@@ -65,6 +65,7 @@ class Generator {
     }
   }
 
+  // done
   sufficient() {
     let sufficient = [];
 
@@ -169,6 +170,7 @@ class Generator {
     }
   }
 
+  // done
   progress(times) {
     let time = this.time / this.getTimeMult();
 
@@ -222,6 +224,7 @@ class Generator {
     };
   }
 
+  // done
   template() {
     return `
     <div id="${this.buttonID}" class="accordion-button noselect">
