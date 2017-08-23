@@ -9,9 +9,6 @@
     "parserOptions": {
         "sourceType": "module"
     },
-    "globals": {
-        "paypal": true
-    },
     "rules": {
 		    "no-unused-vars": 0,
         "indent": [
